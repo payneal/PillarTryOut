@@ -24,7 +24,7 @@ class TestMachine(unittest.TestCase):
 
 	def test_initial_display(self):	
 		display = test.getVendDisplay() 
-		self.assertEqual(display, "INSERT COIN")
+		self.assertEqual(display, "INSERT COINS")
 
 	def test_initial_amount(self): 
 		display = test.getTotalInserted()
@@ -54,7 +54,7 @@ class TestMachine(unittest.TestCase):
 
 	def test_updated_display(self):	
 		display = test.getVendDisplay() 
-		self.assertEqual(display, "0.15")
+		self.assertEqual(display, "$0.15")
 
 	def test_instert_bad_coin(self): 
 		test.insertCoin('fake')
@@ -89,89 +89,54 @@ class TestMachine(unittest.TestCase):
 		# we want to test this to see if all Products are stored now in vending machine
 		self.assertEqual(theItemsInMachine,allProducts)
 
-
 	def test_showing_items_in_Vmachine(self): 
 		#this diplays all items in machin is this form
 		buyables = "1.) cola = $1.00, 2.) chips = $0.50, 3.) candy = $0.65"
 		result = test2.showItems()
 		self.assertEqual(result,buyables)
 
-	def test_buy_button_functionality(self): 
+	def test_buy_button_Bad_functionality(self): 
 		#give machine money $.50 so can only buy one item
 		test2.insertCoin('quarter')
 		test2.insertCoin('quarter')
 		amountInserted = test2.getTotalInserted()
 		self.assertEqual(amountInserted, .50)
 
-		#sh
+		#this is if buying cola thats too expensive
+		test2.buyItem(1)
+		result= test2.getVendDisplay()
+		self.assertEqual(result, 'PRICE = $1.00')
 
-		#go buy item that is $.65 should get display "PRICE: {$}"
-		#test2.
+		result= test2.getVendDisplay()
+		self.assertEqual(result, 'INSERT COINS')
 
 
+	def test_buy_button_good_functionality(self): 
+		amountInserted = test2.getTotalInserted()
+		self.assertEqual(amountInserted, .50)
+		 
+		#this is if buying chips that you can afford
+		result = test2.buyItem(2)
+
+		#check amont in machine
+		result= test2.getTotalInserted()
+		self.assertEqual(result, 0)
+		
+		#check that item has been given
+		result= test2.checkQty(2)
+		self.assertEqual(result, 9)
+
+		#check display message
+		result= test2.getVendDisplay()
+		self.assertEqual(result, 'THANK YOU')
+
+		#second check of display
+		result= test2.getVendDisplay()
+		self.assertEqual(result, 'INSERT COINS')
 
 
-	#create random test once done (below is old one)
-	if False: 	
-		def test_random_adding_coin(self):
-			
-			print "step 1"
-			randomCoins =  [ 0.01, 0.05, 0.10, 0.20, 0.50]
-			validCoins = [.05, .10, .25]
-
-			print "step 2"
-			for i in range(100): 
-				
-				testRandom = machine()
-				number = randomCoins[randint(0,4)]
-
-				testRandom.insertCoin(number)
-
-				if number in validCoins: 
-					checkReturn =  testRandom.getReturnCoin()
-					self.assertEqual(checkReturn, None)
-					
-					#check to see that correct amount has been inserted
-					amountInserted = testRandom.getTotalInserted()
-					self.assertEqual(amountInserted, number)
-					
-					#this should None because this is a vaild coin to enter
-					checkReturn=  testRandom.getReturnCoin()
-					self.assertEqual(checkReturn, None)
-
-					#this check the display
-					testRandom.setVendDisplay()
-					display = testRandom.getVendDisplay()
-					self.assertEqual(float(display), number)
-
-					#add  coin two
-					secondNumber = randomCoins[randint(0,4)]
-					testRandom.insertCoin(secondNumber)
-					if secondNumber in validCoins: 
-						#check the display
-						testRandom.setVendDisplay()
-						secondDisplay = testRandom.getVendDisplay()
-						self.assertEqual("{0:.2f}".format(number  + secondNumber), secondDisplay)
-					else: 
-						checkReturn =  testRandom.getVendDisplay()
-						self.assertEqual(float(display), number)
-
-				else: 
-					checkReturn =  testRandom.getReturnCoin()
-					self.assertEqual(checkReturn, number)
-					
-					#check to see that correct amount has been inserted
-					amountInserted = testRandom.getTotalInserted()
-					self.assertEqual(amountInserted, 0)
-					
-					#this should be the coin inserted because this is an invalid coin 
-					checkReturn =  testRandom.getReturnCoin()
-					self.assertEqual(number, checkReturn)
-
-					#this check the display
-					display = testRandom.getVendDisplay()
-					self.assertEqual(display, "INSERT COIN")
 
 	
+
 if __name__ == '__main__':
     unittest.main()

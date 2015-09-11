@@ -21,4 +21,7 @@ class products(object):
 
 	def getAllProducts(self):
 		return self.items
-		
+
+	def subQtyofItem(self, name): 
+		self.items[name]['qty'] =  self.items[name]['qty'] -1
+	

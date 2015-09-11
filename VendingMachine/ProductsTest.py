@@ -64,6 +64,20 @@ class TestMoneyUnits(unittest.TestCase):
 		allItems = test3.getAllProducts()
 		self.assertEqual(allItems, {'cola': {'price':1.00, 'qty': 10} , 'chips': {'price': .50, 'qty': 10},  'candy': {'price':.65, 'qty': 10} })
 
+	def test_sub_qty(self): 
+		test4 = products()
+
+		qty= test4.getItemPriceQty('qty', 'cola')
+		self.assertEqual(qty, 10)
+
+		test4.subQtyofItem('cola')
+		qty= test4.getItemPriceQty('qty', 'cola')
+		self.assertEqual(qty, 9)
+
+
+
+
+
 
 	#create random test later I just wanna hurry up and finsih this thing 
 
