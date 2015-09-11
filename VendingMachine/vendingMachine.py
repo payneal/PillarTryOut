@@ -3,12 +3,14 @@
 #so that I can accept or reject coins
 from Coin import coins
 
+
+
 class machine(object): 
 	def __init__(self): 
 		self.display = "INSERT COIN"
 		self.amountInserted = 0
 		self.totalInserted = 0 
-		self.items = [] 
+		self.items = {} 
 		self.returnCoin = None
 
 	def getReturnCoin(self): 
@@ -44,11 +46,28 @@ class machine(object):
 			rounded2places = "{0:.2f}".format(self.totalInserted)
 
 			self.totalInserted= float(rounded2places)
+
+	def addAllItems(self, items):
+		self.items = items
+
+	def getAllItems(self):
+		return self.items 
 			
 
 
 
 
+
+if __name__ == '__main__':
+	test = machine() 
+
+	
+
+	test.addAllItems({'chips': {'price': 0.5, 'qty': 10}})
+
+	this = test.getAllItems()
+
+	print this
 
 
 

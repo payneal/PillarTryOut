@@ -4,6 +4,9 @@ import unittest
 #so that I can test the money
 from vendingMachine import machine
 
+#so that I can make buys
+from Products import products
+
 #used for random testing 
 from random import randint
 
@@ -84,6 +87,29 @@ class TestMoneyUnits(unittest.TestCase):
 		test4 = machine()
 		test4.setVendDisplay(True)
 		self.assertEqual(test4.getVendDisplay(),'THANKS')
+
+
+	def test_adding_item_to_vending_vendingMachine(self): 
+		#this creates vending machine
+		test5 = machine()
+		#this creates required prducts via pillar kata
+		items =  products()
+		#this puts all products in a varible
+		allProducts = items.getAllProducts()
+		#this puts all products in the machine
+		test5.addAllItems(allProducts)
+		#hold all items form vending machine
+		theItemsInMachine = test5.getAllItems()
+		
+		# we want to test this to see if all Products are stored now in vending machine
+		self.assertEqual(theItemsInMachine,allProducts)
+
+
+
+
+
+
+
 
 
 	def test_random_adding_coin(self):

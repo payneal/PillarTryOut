@@ -38,7 +38,7 @@ class TestMoneyUnits(unittest.TestCase):
 		self.assertEqual(test5.check(), .1)
 		self.assertEqual(test6.check(), .25)
 		
-
+	def test_Random_valid_Coins(self):		
 		#random test
 		#valid numbers
 		valid = [.05, .10, .25] 

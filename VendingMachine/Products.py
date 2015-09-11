@@ -22,4 +22,7 @@ class products(object):
 
 	def getItemPriceQty(self, priceQty, name):
 		return self.items[name][priceQty]
+
+	def getAllProducts(self):
+		return self.items
 		

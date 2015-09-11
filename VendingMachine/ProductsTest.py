@@ -58,6 +58,15 @@ class TestMoneyUnits(unittest.TestCase):
 		qty= test2.getItemPriceQty('qty', itemName)
 		self.assertEqual(qty, 10)
 
+	def test_get_all_items(self): 
+		test3 = products()
+
+		allItems = test3.getAllProducts()
+		self.assertEqual(allItems, {'cola': {'price':1.00, 'qty': 10} , 'chips': {'price': .50, 'qty': 10},  'candy': {'price':.65, 'qty': 10} })
+
+
+	#create random test later I just wanna hurry up and finsih this thing 
+
 
 if __name__ == '__main__':
     unittest.main()
