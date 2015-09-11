@@ -24,12 +24,19 @@ class machine(object):
 	def getVendDisplay(self):
 		if self.display == "THANK YOU":
 			hold = self.display
-			self.display = "INSERT COINS"
+			if self.amountInserted > 0.00: 
+				self.display = "${0:.2f}".format(self.amountInserted)
+			else: 
+				self.display = "INSERT COINS"
 			return hold
 		elif "PRICE" in self.display: 
 			hold = self.display
 			self.display = "INSERT COINS"
 			return hold
+		#elif self.amountInserted > 0.00:
+		#	self.display = "{$0:.2f}".format(self.amountInserted)
+		#	return self.display
+
 		else: 
 			return self.display
 
@@ -103,6 +110,9 @@ class machine(object):
 		else: 
 			#they buy item
 			self.amountInserted = self.amountInserted - priceOfItem
+			
+			self.amountInserted = float('{}'.format("{0:.2f}".format(self.amountInserted)))
+
 			self.setVendDisplay('THANK YOU')
 
 			#change the quality

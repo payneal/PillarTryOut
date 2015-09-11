@@ -111,7 +111,7 @@ class TestMachine(unittest.TestCase):
 		self.assertEqual(result, 'INSERT COINS')
 
 
-	def test_buy_button_good_functionality(self): 
+	def test_buy_button_good_functionality(self):
 		amountInserted = test2.getTotalInserted()
 		self.assertEqual(amountInserted, .50)
 		 
@@ -133,6 +133,40 @@ class TestMachine(unittest.TestCase):
 		#second check of display
 		result= test2.getVendDisplay()
 		self.assertEqual(result, 'INSERT COINS')
+
+	def test_buy_button_good_functionality_with_change_left(self): 
+		#make sure that 0 is the amount in machine
+		result= test2.getTotalInserted()
+		self.assertEqual(result, 0.0)
+
+		#insert $.60
+		test2.insertCoin('quarter')
+		test2.insertCoin('quarter')
+		test2.insertCoin('dime')
+		
+		amountInserted = test2.getTotalInserted()
+		self.assertEqual(amountInserted, .60)
+		 
+		#this is if buying chips that you can afford
+		result = test2.buyItem(2)
+
+		#check amont in machine
+		result= test2.getTotalInserted()
+		self.assertEqual(result, .10)
+		
+		#check that item has been given
+		result= test2.checkQty(2)
+		self.assertEqual(result, 8)
+
+		#check display message
+		result= test2.getVendDisplay()
+		self.assertEqual(result, 'THANK YOU')
+
+		#second check of display
+		result= test2.getVendDisplay()
+		self.assertEqual(result, "$0.10")
+
+
 
 
 
