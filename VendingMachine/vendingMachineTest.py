@@ -18,7 +18,7 @@ test2 = machine()
 #this creates required prducts via pillar kata
 items =  products()
 
-class TestMoneyUnits(unittest.TestCase):
+class TestMachine(unittest.TestCase):
 	def setUp(self): 
 		pass
 
@@ -82,12 +82,33 @@ class TestMoneyUnits(unittest.TestCase):
 		#this puts all products in a varible
 		allProducts = items.getAllProducts()
 		#this puts all products in the machine
-		test2.addAllItems(allProducts)
+		test2.addAllItems()
 		#hold all items form vending machine
 		theItemsInMachine = test2.getAllItems()
 		
 		# we want to test this to see if all Products are stored now in vending machine
 		self.assertEqual(theItemsInMachine,allProducts)
+
+
+	def test_showing_items_in_Vmachine(self): 
+		#this diplays all items in machin is this form
+		buyables = "1.) cola = $1.00, 2.) chips = $0.50, 3.) candy = $0.65"
+		result = test2.showItems()
+		self.assertEqual(result,buyables)
+
+	def test_buy_button_functionality(self): 
+		#give machine money $.50 so can only buy one item
+		test2.insertCoin('quarter')
+		test2.insertCoin('quarter')
+		amountInserted = test2.getTotalInserted()
+		self.assertEqual(amountInserted, .50)
+
+		#sh
+
+		#go buy item that is $.65 should get display "PRICE: {$}"
+		#test2.
+
+
 
 
 	#create random test once done (below is old one)

@@ -1,9 +1,5 @@
 # coins that vending machine can accept
 
-#so that I can eventual connect this to use inserted money
-from vendingMachine import machine
-
-
 class products(object):  
 	def __init__(self):
 		self.numberOfitems = 3

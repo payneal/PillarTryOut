@@ -6,6 +6,12 @@ from Coin import coins
 #using coins
 Coins = coins()
 
+from Products import products
+
+#using products
+Products = products()
+
+
 
 class machine(object): 
 	def __init__(self): 
@@ -62,8 +68,22 @@ class machine(object):
 			#we nee dto convert this number to a string 
 			self.display = "{0:.2f}".format(self.totalInserted)
 
-	def addAllItems(self, items):
-		self.items = items
+	def addAllItems(self):
+		self.items = Products.getAllProducts()
+
+	def showItems(self):
+		string = ''
+		count= 1
+		for x in self.items: 
+			name = Products.getItemNameWithNumber(count)
+			price = Products.getItemPriceQty('price', name)
+			string = string + "{}.) {} = ${}".format(count, name , "{0:.2f}".format(price))
+			count+= 1
+			if count != len(self.items) +1 : 
+				string = string + ", "
+		return string
+
+
 
 	
 			
