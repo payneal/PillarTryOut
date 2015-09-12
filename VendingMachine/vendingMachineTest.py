@@ -28,27 +28,27 @@ class TestMachine(unittest.TestCase):
 
 	def test_initial_amount(self): 
 		display = test.getTotalInserted()
-		self.assertEqual(display, 0)
+		self.assertEqual(display, 0.00)
 
 	def test_items_in_Vmachine(self): 
 		inMachine = test.getAllItems()
 		self.assertEqual(inMachine, {})
 
 	def test_look_in_return_Bin(self): 
-		binCoin = test.getReturnCoin()
-		self.assertEqual(binCoin, None)
+		binCoin = test.getReturnCoins()
+		self.assertEqual(binCoin, [])
 
 	def test_insert_coins(self):
 		test.insertCoin('dime')
-		checkReturn=  test.getReturnCoin()
-		self.assertEqual(checkReturn, None)
+		checkReturn=  test.getReturnCoins()
+		self.assertEqual(checkReturn, [])
 		amountInserted = test.getTotalInserted()
 		self.assertEqual(amountInserted, .10)
 
 		#test inserting multiple coins
 		test.insertCoin('nickle')
-		checkReturn=  test.getReturnCoin()
-		self.assertEqual(checkReturn, None)
+		checkReturn=  test.getReturnCoins()
+		self.assertEqual(checkReturn, [])
 		amountInserted = test.getTotalInserted()
 		self.assertEqual(amountInserted, .15)
 
@@ -58,8 +58,8 @@ class TestMachine(unittest.TestCase):
 
 	def test_instert_bad_coin(self): 
 		test.insertCoin('fake')
-		checkReturn=  test.getReturnCoin()
-		self.assertEqual(checkReturn, 'fake')
+		checkReturn=  test.getReturnCoins()
+		self.assertEqual(checkReturn, ['fake'])
 
 		#make sure you clear return bin
 		test.clearReturnedCoin()
@@ -69,8 +69,10 @@ class TestMachine(unittest.TestCase):
 
 	def test_insert_invalid_Coin(self): 
 		test.insertCoin('half')
-		checkReturn=  test.getReturnCoin()
-		self.assertEqual(checkReturn, 'half')
+		checkReturn=  test.getReturnCoins()
+		self.assertEqual(checkReturn, ['half'])
+		checkReturn=  test.getReturnCoinAmount()
+		self.assertEqual(checkReturn, .50)
 
 		#make sure you clear return bin
 		test.clearReturnedCoin()
@@ -114,6 +116,9 @@ class TestMachine(unittest.TestCase):
 	def test_buy_button_good_functionality(self):
 		amountInserted = test2.getTotalInserted()
 		self.assertEqual(amountInserted, .50)
+
+		coinsInserted = test2.getCoinsInserted()
+		self.assertEqual(coinsInserted, ['quarter', 'quarter'])
 		 
 		#this is if buying chips that you can afford
 		result = test2.buyItem(2)
@@ -121,6 +126,9 @@ class TestMachine(unittest.TestCase):
 		#check amont in machine
 		result= test2.getTotalInserted()
 		self.assertEqual(result, 0)
+
+		coinsInserted = test2.getCoinsInserted()
+		self.assertEqual(coinsInserted, [])
 		
 		#check that item has been given
 		result= test2.checkQty(2)
@@ -146,14 +154,13 @@ class TestMachine(unittest.TestCase):
 		
 		amountInserted = test2.getTotalInserted()
 		self.assertEqual(amountInserted, .60)
-		 
+
+		coinsInserted = test2.getCoinsInserted()
+		self.assertEqual(coinsInserted, ['quarter', 'quarter', 'dime'])
+
 		#this is if buying chips that you can afford
 		result = test2.buyItem(2)
 
-		#check amont in machine
-		result= test2.getTotalInserted()
-		self.assertEqual(result, .10)
-		
 		#check that item has been given
 		result= test2.checkQty(2)
 		self.assertEqual(result, 8)
@@ -164,13 +171,23 @@ class TestMachine(unittest.TestCase):
 
 		#second check of display
 		result= test2.getVendDisplay()
-		self.assertEqual(result, "$0.10")
+		self.assertEqual(result, "INSERT COINS")
 
+		
+		#check amount returned
+		result= test2.getReturnCoinAmount()
+		self.assertEqual(result, .10)
 
+		result= test2.getReturnCoins()
+		self.assertEqual(result, ['dime'])
 
+		#grab the change
+		test2.clearReturnedCoin()
+		result= test.getReturnCoinAmount()
+		self.assertEqual(result, 0.00)	
+		result= test2.getReturnCoins()
+		self.assertEqual(result, [])	
 
-
-	
 
 if __name__ == '__main__':
     unittest.main()
