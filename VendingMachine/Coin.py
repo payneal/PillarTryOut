@@ -10,12 +10,3 @@ class coins(object):
 			return self.allCoins[name]
 		else: 
 			return None
-
-	#def check(self):
-	#	if self.amount in self.validCoins:
-	#		return self.amount
-	#	else: 
-	#		return False
-
-	 
-

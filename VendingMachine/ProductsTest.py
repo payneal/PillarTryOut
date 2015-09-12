@@ -75,12 +75,5 @@ class TestMoneyUnits(unittest.TestCase):
 		self.assertEqual(qty, 9)
 
 
-
-
-
-
-	#create random test later I just wanna hurry up and finsih this thing 
-
-
 if __name__ == '__main__':
     unittest.main()

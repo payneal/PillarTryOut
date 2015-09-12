@@ -22,6 +22,9 @@ class machine(object):
 		self.returnCoin = []
 		self.returnCoinAmount = 0
 		self.acceptedCoins = {"nickle":.05, 'dime': .10, 'quarter': .25} 
+		#not implemented yet
+		#these are the coins exchanged for products
+		self.coinsCollected = []
 
 	def getVendDisplay(self):
 		if self.display == "THANK YOU":
@@ -35,10 +38,6 @@ class machine(object):
 			hold = self.display
 			self.display = "INSERT COINS"
 			return hold
-		#elif self.amountInserted > 0.00:
-		#	self.display = "{$0:.2f}".format(self.amountInserted)
-		#	return self.display
-
 		else: 
 			return self.display
 
@@ -47,7 +46,6 @@ class machine(object):
 
 	def getCoinsInserted(self): 
 		return self.coinsInserted
-
 
 
 	def getAllItems(self):
@@ -103,7 +101,7 @@ class machine(object):
 	def setVendDisplay(self, what= None):
 		if what:
 			self.display = what
-		elif self.totalInserted == 0: 
+		elif self.amountInserted== 0: 
 			self.display = "INSERT COINS"
 		else: 
 			#we nee dto convert this number to a string 
@@ -185,10 +183,21 @@ class machine(object):
 			self.amountInserted = 0.00
 
 
-
 	def checkQty(self, number): 
 		nameOfBuy = Products.getItemNameWithNumber(number)
 		return Products.getItemPriceQty('qty', nameOfBuy)
 
-	def hitReturn(self): 
-		return 'hi'
+	def returnButton(self): 
+		#putt total inserted into return bin 
+		self.returnCoin = self.coinsInserted
+		self.coinsInserted = []
+
+		#put coins inserted into return bin 
+		self.returnCoinAmount = self.amountInserted 
+		self.amountInserted = 0
+
+		#reset the display
+		self.setVendDisplay()
+
+
+		

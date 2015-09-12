@@ -47,30 +47,7 @@ class TestMoneyUnits(unittest.TestCase):
 		#test that dime exist
 		amount = money.getAmount('fake')
 		self.assertEqual(amount, None)
-	
-	#create random test once done (below is old one)
-	if False:	
-		def test_Random_valid_Coins(self):		
-			#random test
-			#valid numbers
-			valid = [.05, .10, .25] 
-			for i in range(100):
-				#get random number 0-25
-				number = randint(0,25)
-				#make decimal (.0 to .25)
-				testDec = float(number)/100
-				#error check number sbeing used
-				#print testDec
-
-				testRandom = coins(testDec)
-
-				self.assertEqual(testRandom.getAmount(), testDec)
-
-				if testDec in valid:
-					self.assertEqual(testRandom.check(), testDec)
-				else: 
-					self.assertEqual(testRandom.check(), False)								
-
+									
 if __name__ == '__main__':
     unittest.main()
 

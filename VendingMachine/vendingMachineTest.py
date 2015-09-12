@@ -188,6 +188,47 @@ class TestMachine(unittest.TestCase):
 		result= test2.getReturnCoins()
 		self.assertEqual(result, [])	
 
+	def test_return_Coins(self): 
+		#insert $.25
+		test2.insertCoin('quarter')
+
+		#make sure there is a quarter (value) in machine
+		amountInserted = test2.getTotalInserted()
+		self.assertEqual(amountInserted, .25)
+
+		#make sure there is a quarter in the machine
+		coinsInserted = test2.getCoinsInserted()
+		self.assertEqual(coinsInserted, ['quarter'])
+
+		#hit the return button
+		test2.returnButton()
+
+		#see change in return bin
+		returnCoins = test2.getReturnCoins()
+		self.assertEqual(returnCoins, ['quarter'])
+
+		returnAmount = test2.getReturnCoinAmount()
+		self.assertEqual(returnAmount, .25)
+
+		# get change out of return bin 
+		test2.clearReturnedCoin()
+
+		#make sure machine inserted money is 0 
+		amountInserted = test2.getTotalInserted()
+		self.assertEqual(amountInserted, 0)
+
+		#make sure coins in machine = []
+		coinsInserted = test2.getCoinsInserted()
+		self.assertEqual(coinsInserted, [])
+
+		#make sure display is insert coins
+		result= test2.getVendDisplay()
+		self.assertEqual(result, "INSERT COINS")
+
+
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
