@@ -24,7 +24,8 @@ class machine(object):
 		self.acceptedCoins = {"nickle":.05, 'dime': .10, 'quarter': .25} 
 		#not implemented yet
 		#these are the coins exchanged for products
-		self.coinsCollected = []
+		self.coinsInMachine = []
+		self.amountInMachine = 0
 
 	def getVendDisplay(self):
 		if self.display == "THANK YOU":
@@ -38,7 +39,15 @@ class machine(object):
 			hold = self.display
 			self.display = "INSERT COINS"
 			return hold
+		elif self.display == "SOLD OUT":
+			hold = self.display
+			self.display = "INSERT COINS"
+			return hold
 		else: 
+			if self.amountInserted == 0: 
+				self.display = "INSERT COINS"
+			else: 
+				self.display = "${0:.2f}".format(self.amountInserted)
 			return self.display
 
 	def getTotalInserted(self): 
@@ -118,69 +127,79 @@ class machine(object):
 			string = 'PRICE = ${}'.format("{0:.2f}".format(price))
 			self.display = string
 		else: 
-			#they buy item
-			self.amountInserted = self.amountInserted - priceOfItem
 
-			#find number of quartes
-			quarters = 0
-			for x in self.coinsInserted: 
-				if x == 'quarter': 
-					quarters = quarters + 1
-			#print "there were this many quarters {}".format(quarters)
+			if self.checkQty(number) == 0: 
+				self.setVendDisplay('SOLD OUT')
+			else: 
+				#they buy item
+				self.amountInserted = self.amountInserted - priceOfItem
 
-			#find number of dimes
-			dimes = 0
-			for x in self.coinsInserted: 
-				if x == 'dime': 
-					dimes = dimes + 1
-			#print "there were this many dimes {}".format(dimes)
+				#Place this amount of money in the machine
+				self.amountInMachine = self.amountInMachine + priceOfItem
 
-			#find number of nicks
-			nickles = 0
-			for x in self.coinsInserted: 
-				if x == 'nickle': 
-					nickles = nickles + 1
-			#print "there were this many nickles {}".format(nickles)
+				#find number of quartes
+				quarters = 0
+				for x in self.coinsInserted: 
+					if x == 'quarter': 
+						quarters = quarters + 1
+				#print "there were this many quarters {}".format(quarters)
 
-			#for math to have something to subtract 
-			takeAway = priceOfItem
-			#print "this is the sub number {}".format(takeAway)
+				#find number of dimes
+				dimes = 0
+				for x in self.coinsInserted: 
+					if x == 'dime': 
+						dimes = dimes + 1
+				#print "there were this many dimes {}".format(dimes)
 
-			for x in range(quarters + dimes + nickles):
-				if takeAway >= .25 and quarters > 0: 
-					takeAway = takeAway - .25
-					quarters = quarters - 1
-					#print "a quarter was subed so q= {} and total= {}".format(quarters, takeAway)
-					self.coinsInserted.remove('quarter')
-				elif takeAway >= .10 and dimes > 0:
-					takeAway = takeAway - .10
-					dimes = dimes - 1
-					self.coinsInserted.remove('dime')
-				elif takeAway >= .05 and nickles > 0:
-					takeAway = takeAway - .05
-					nickles = nickles - 1
-					self.coinsInserted.remove('nickle')
+				#find number of nicks
+				nickles = 0
+				for x in self.coinsInserted: 
+					if x == 'nickle': 
+						nickles = nickles + 1
+				#print "there were this many nickles {}".format(nickles)
+
+				#for math to have something to subtract 
+				takeAway = priceOfItem
+				#print "this is the sub number {}".format(takeAway)
+
+				for x in range(quarters + dimes + nickles):
+					if takeAway >= .25 and quarters > 0: 
+						takeAway = takeAway - .25
+						quarters = quarters - 1
+						#print "a quarter was subed so q= {} and total= {}".format(quarters, takeAway)
+						self.coinsInserted.remove('quarter')
+						self.coinsInMachine.append('quarter') 
+					elif takeAway >= .10 and dimes > 0:
+						takeAway = takeAway - .10
+						dimes = dimes - 1
+						self.coinsInserted.remove('dime')
+						self.coinsInMachine.append('quarter') 
+					elif takeAway >= .05 and nickles > 0:
+						takeAway = takeAway - .05
+						nickles = nickles - 1
+						self.coinsInserted.remove('nickle')
+						self.coinsInMachine.append('quarter') 
 
 
-			self.amountInserted = float('{}'.format("{0:.2f}".format(self.amountInserted)))
+				self.amountInserted = float('{}'.format("{0:.2f}".format(self.amountInserted)))
 
-			self.setVendDisplay('THANK YOU')
+				self.setVendDisplay('THANK YOU')
 
-			#change the quality
-			Products.subQtyofItem(nameOfBuy)
+				#change the quality
+				Products.subQtyofItem(nameOfBuy)
 
-			#put change in the coin return
-			for x in self.coinsInserted:
-				self.returnCoin.append(x)
+				#put change in the coin return
+				for x in self.coinsInserted:
+					self.returnCoin.append(x)
 
-			#clear coins Inserted because they are in return bin
-			self.coinsInserted = []
+				#clear coins Inserted because they are in return bin
+				self.coinsInserted = []
 
-			#state how much money in coin return
-			self.returnCoinAmount = self.amountInserted
+				#state how much money in coin return
+				self.returnCoinAmount = self.amountInserted
 
-			#clear amount inserted 
-			self.amountInserted = 0.00
+				#clear amount inserted 
+				self.amountInserted = 0.00
 
 
 	def checkQty(self, number): 
@@ -198,6 +217,10 @@ class machine(object):
 
 		#reset the display
 		self.setVendDisplay()
+
+	def getAmountInMachine(self):
+		return self.amountInMachine
+
 
 
 		
