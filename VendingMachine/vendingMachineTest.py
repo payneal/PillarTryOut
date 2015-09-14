@@ -15,6 +15,9 @@ test = machine()
 # create the test  that can test buying
 test2 = machine()
 
+#did this for new test because test werent ran in order 
+test3 = machine()
+
 #this creates required prducts via pillar kata
 items =  products()
 
@@ -25,7 +28,7 @@ class TestMachine(unittest.TestCase):
 	def test_initial_display(self):	
 		#check the display
 		display = test.getVendDisplay() 
-		self.assertEqual(display, "INSERT COINS")
+		self.assertEqual(display, 'EXACT CHANGE ONLY')
 
 	def test_initial_amount(self): 
 		#make sure that that no money has been inserted
@@ -179,7 +182,7 @@ class TestMachine(unittest.TestCase):
 
 		#second check of display
 		result= test2.getVendDisplay()
-		self.assertEqual(result, 'INSERT COINS')
+		self.assertEqual(result, 'EXACT CHANGE ONLY')
 
 	def test_buy_button_good_functionality_with_change_left(self): 
 		#make sure that 0 is the amount in machine
@@ -210,7 +213,7 @@ class TestMachine(unittest.TestCase):
 
 		#second check of display
 		result= test2.getVendDisplay()
-		self.assertEqual(result, "INSERT COINS")
+		self.assertEqual(result, 'EXACT CHANGE ONLY')
 
 		
 		#check amount returned
@@ -266,97 +269,150 @@ class TestMachine(unittest.TestCase):
 
 		#make sure display is insert coins
 		result= test2.getVendDisplay()
-		self.assertEqual(result, "INSERT COINS")
+		self.assertEqual(result, 'EXACT CHANGE ONLY')
 
 	def test_sold_out(self): 
 		#check how many chips are left 
-		result= test2.checkQty(2)
+		#although I started a new class for this there will still only be 8 
+		#bags of chips because of line: 12 on vendingMachine.py
+		result= test3.checkQty(2)
 		self.assertEqual(result, 8)
 
+		insertMoneyCheck = .50 
+		insertCheck = ['quarter', 'dime', 'dime', 'nickle']
+		cashInMachin =  0
+		checkagainst = []
+		#make sure display is insert coins
+		result= test3.getVendDisplay()
+		self.assertEqual(result, 'EXACT CHANGE ONLY')
+		
 		chips= 8
-
-		#we need to buy 8 chips
+		#we need to buy 10 candies to get sold out
 		for i in range(8): 
 			#insert $.50
-			test2.insertCoin('quarter')
-			test2.insertCoin('quarter')
+			test3.insertCoin('quarter')
+			test3.insertCoin('dime')
+			test3.insertCoin('dime')
+			test3.insertCoin('nickle')
+
+			#adding to what im checking the machine against
+			checkagainst.append('quarter')
+			for x in range(2):
+				checkagainst.append('dime')
+			checkagainst.append('nickle')
+
+			coinsInserted = test3.getCoinsInserted()
+			self.assertEqual(coinsInserted, insertCheck)
+
+			cashInMachin = cashInMachin +.5
+
+			amountInserted = test3.getTotalInserted()
+			self.assertEqual(amountInserted, insertMoneyCheck)
+
 
 			#this is if buying chips that you can afford
-			test2.buyItem(2)
-			#lower the chips varible
-			chips = chips -1
+			test3.buyItem(2)
 
-			#check that item has been given
-			result= test2.checkQty(2)
+			result = test3.getAmountInMachine()
+			self.assertEqual(result, cashInMachin)
+
+			coinsInserted = test3.getCoinsInserted()
+			self.assertEqual(coinsInserted, [])
+
+
+
+			result = test3.getCoinsInMachine()
+			self.assertEqual(checkagainst, result)
+
+
+			#lower the chips varible
+			chips= chips - 1
+
+			#check that item has been taken away in amount in stock
+			result= test3.checkQty(2)
 			self.assertEqual(result, chips)
 
 			#check display message
-			result= test2.getVendDisplay()
+			result= test3.getVendDisplay()
 			self.assertEqual(result, 'THANK YOU')
 
+			result = test3.getCoinsInMachine()
+			self.assertEqual(checkagainst, result)
+
+
 			#second check of display
-			result= test2.getVendDisplay()
+			#it should display Insert coins because there should now be money in the machine
+			result= test3.getVendDisplay()
 			self.assertEqual(result, "INSERT COINS")
 
 		#verify that chips are at 0 
-		result= test2.checkQty(2)
+		result= test3.checkQty(2)
 		self.assertEqual(result, 0)
 
 		#Insert $.50 cents
-		test2.insertCoin('quarter')
-		test2.insertCoin('quarter')
+		test3.insertCoin('quarter')
+		test3.insertCoin('quarter')
 
-		display = test2.getVendDisplay() 
+		display = test3.getVendDisplay() 
 		self.assertEqual(display, "$0.50")
 
 		#make sure there is enough money to buy item
-		amountInserted = test2.getTotalInserted()
+		amountInserted = test3.getTotalInserted()
 		self.assertEqual(amountInserted, .5)
 
 		#buy chips again
-		test2.buyItem(2)
+		test3.buyItem(2)
 
 		#the screen should display out of stock
-		result= test2.getVendDisplay()
+		result= test3.getVendDisplay()
 		self.assertEqual(result, 'SOLD OUT')
 
 		#make sure machine inserted money is 0 
-		amountInserted = test2.getTotalInserted()
+		amountInserted = test3.getTotalInserted()
 		self.assertEqual(amountInserted, .50)
 
 		#make sure coins in machine = []
-		coinsInserted = test2.getCoinsInserted()
+		coinsInserted = test3.getCoinsInserted()
 		self.assertEqual(coinsInserted, ['quarter', 'quarter'])
 
 		#check screen again should disply amount of money since $.50 still in machine
-		display = test2.getVendDisplay() 
+		display = test3.getVendDisplay() 
 		self.assertEqual(display, "$0.50")
 
 		#hit the return button to empyty the insert
-		test2.returnButton()
+		test3.returnButton()
 
 		#see change in return bin
-		returnCoins = test2.getReturnCoins()
+		returnCoins = test3.getReturnCoins()
 		self.assertEqual(returnCoins, ['quarter', 'quarter'])
 
 		#make sure $.50 cents is the amount in return
-		returnAmount = test2.getReturnCoinAmount()
+		returnAmount = test3.getReturnCoinAmount()
 		self.assertEqual(returnAmount, .5)
 
 		# get change out of return bin 
-		test2.clearReturnedCoin()
+		test3.clearReturnedCoin()
 
 		#make sure machine inserted money is 0 
-		amountInserted = test2.getTotalInserted()
+		amountInserted = test3.getTotalInserted()
 		self.assertEqual(amountInserted, 0)
 
 		#make sure coins in machine = []
-		coinsInserted = test2.getCoinsInserted()
+		coinsInserted = test3.getCoinsInserted()
 		self.assertEqual(coinsInserted, [])
 
 		#check the display again should show 'INSERT COINS'
-		result= test2.getVendDisplay()
+		result= test3.getVendDisplay()
 		self.assertEqual(result, "INSERT COINS")
+
+		result = test3.getCoinsInMachine()
+
+
+		self.assertEqual(result, checkagainst)
+		
+		result = test3.getAmountInMachine()
+		self.assertEqual(result, 4.00)
+
 
 if __name__ == '__main__':
     unittest.main()
