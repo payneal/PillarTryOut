@@ -230,6 +230,9 @@ class TestMachine(unittest.TestCase):
 		result= test2.getReturnCoins()
 		self.assertEqual(result, [])	
 
+
+		#i think this is the issue
+
 	def test_return_Coins(self): 
 		#insert $.25
 		test2.insertCoin('quarter')
@@ -412,6 +415,74 @@ class TestMachine(unittest.TestCase):
 		
 		result = test3.getAmountInMachine()
 		self.assertEqual(result, 4.00)
+
+	def test_sure_coins_retuned(self): 
+		#make sure money is in machine	
+		result = test3.getAmountInMachine()
+		self.assertEqual(result, 4.00)
+
+		#make sure doenst require exact change
+		result= test3.getVendDisplay()
+		self.assertEqual(result, "INSERT COINS")
+
+		#insert 3 quarters in machine
+		#Insert $.50 cents
+		test3.insertCoin('quarter')
+		test3.insertCoin('quarter')
+		test3.insertCoin('quarter')
+
+		#make sure machine inserted money 
+		amountInserted = test3.getTotalInserted()
+		self.assertEqual(amountInserted, .75)
+
+		#make sure display is correct
+		display = test3.getVendDisplay() 
+		self.assertEqual(display, "$0.75")
+
+		#make sure nothing is in the return bin
+		returnCoins = test3.getReturnCoins()
+		self.assertEqual(returnCoins, [])
+
+		#make buy of candy
+		test3.buyItem(3)
+
+		#make sure .10 is in return bin it will be a dime becuase dimes are in machine
+		returnCoins = test3.getReturnCoins()
+		self.assertEqual(returnCoins, ['dime'])
+
+		#make sure $.10 cents is the amount in return
+		returnAmount = test3.getReturnCoinAmount()
+		self.assertEqual(returnAmount, .1)
+
+		#check display message
+		result= test3.getVendDisplay()
+		self.assertEqual(result, 'THANK YOU')
+
+		#check display message
+		result= test3.getVendDisplay()
+		self.assertEqual(result, "INSERT COINS")
+
+		#make sure that candy was bought
+		result= test3.checkQty(3)
+		self.assertEqual(result, 9)		
+
+		#clear return bin 
+		test3.clearReturnedCoin()
+
+		#make sure .10 is in return bin it will be a dime becuase dimes are in machine
+		returnCoins = test3.getReturnCoins()
+		self.assertEqual(returnCoins, [])
+
+		#make sure $.10 cents is the amount in return
+		returnAmount = test3.getReturnCoinAmount()
+		self.assertEqual(returnAmount, 0)
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -207,12 +207,46 @@ class machine(object):
 				self.amountInserted = float('{}'.format("{0:.2f}".format(self.amountInserted)))
 				self.setVendDisplay('THANK YOU')
 
-				#change the quality
+				#change the quantity
 				Products.subQtyofItem(nameOfBuy)
 
+				#i think this is the issue
+
 				#put change in the coin return
-				for x in self.coinsInserted:
-					self.returnCoin.append(x)
+			
+				#grab the amount that need to be placed in bin
+				amountPlaced = int(self.amountInserted *100)
+
+				#print "this will be placed in return be {}".format(amountPlaced)
+				#print "this is legth oof coins inserted: {}".format( len(self.coinsInserted) )
+				
+
+				#get the amount of the coins stil inserted
+				amountOfCoinsInsertedStill = 0
+				for x in self.coinsInserted: 
+					if x  == 'quarter': 
+						amountOfCoinsInsertedStill = amountOfCoinsInsertedStill + 25
+					elif x == 'dime': 
+						amountOfCoinsInsertedStill = amountOfCoinsInsertedStill + 10
+					elif x == 'nickle': 
+						amountOfCoinsInsertedStill = amountOfCoinsInsertedStill + 5
+
+
+				if amountPlaced ==  amountOfCoinsInsertedStill: 
+					for x in self.coinsInserted:
+						self.returnCoin.append(x)
+				else:
+					for x in self.coinsInMachine: 
+						if amountPlaced >= 25 and 'quarter' in self.coinsInMachine: 
+							self.returnCoin.append('quarter')
+							amountPlaced = amountPlaced -25
+						elif amountPlaced >= 10 and 'dime' in self.coinsInMachine: 
+							self.returnCoin.append('dime')
+							amountPlaced = amountPlaced -10
+						elif amountPlaced >= 5 and 'nickle' in self.coinsInMachine: 
+							self.returnCoin.append('nickle')
+							amountPlaced = amountPlaced -5
+
 
 				#clear coins Inserted because they are in return bin
 				self.coinsInserted = []
