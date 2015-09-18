@@ -21,6 +21,12 @@ class TestBowlingGame(unittest.TestCase):
 		self.roll_this_many_times_hit_this_many_pins(17, 0)
 		self.assertEqual(self.game.score(), 20)
 
+	def test_to_check_rolling_one_strike(self): 
+		self.game.roll(10)
+		self.game.roll(3)
+		self.game.roll(5)
+		self.roll_this_many_times_hit_this_many_pins(17, 0)
+		self.assertEqual(self.game.score(), 26)
 
 	def roll_this_many_times_hit_this_many_pins(self, rolls, pinsHit): 
 		for x in range(rolls): 
