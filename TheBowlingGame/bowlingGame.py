@@ -6,4 +6,8 @@ class Game(object):
 		self.stats.append(pins)
 
 	def score(self): 
-		return 0
+		score = 0
+		for x in self.stats: 
+			score = score + x
+
+		return score
