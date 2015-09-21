@@ -40,6 +40,23 @@ class TestBowlingGame(unittest.TestCase):
 
 		self.assertEqual(self.game.roll(5), "no more than three balls can be rolled in tenth frame")
 		self.assertEqual(self.game.score(), 15)
+
+	def test_to_check_strike_in_the_10th_that_no_more_than_3_balls_can_be_rolled(self):
+		self.roll_this_many_times_hit_this_many_pins(18, 0)
+		self.game.roll(10)
+		self.game.roll(10)
+		self.game.roll(10)
+
+		self.assertEqual(self.game.score(), 30)
+		self.assertEqual(self.game.roll(5), "no more than three balls can be rolled in tenth frame")
+		self.assertEqual(self.game.score(), 30)
+
+
+
+
+
+
+
 	
 	def roll_this_many_times_hit_this_many_pins(self, rolls, pinsHit): 
 		for x in range(rolls): 
