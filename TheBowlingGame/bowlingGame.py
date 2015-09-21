@@ -1,6 +1,6 @@
 class Game(object): 
 	def __init__(self):
-		self.frame = 10
+		self.frameMax = 10
 		self.spearOrStrike = 10
 		self.stats =[]
 
@@ -10,81 +10,87 @@ class Game(object):
 		self.scoreBoard = {'1': None, '2': None, '3': None , '4':None ,'5':None , '6':None , '7':None , '8':None , '9':None , '10':None }
 		
 	def roll(self, pins):
+		if self.whichRollInFrame == 1: 
+			self.handleFirstRollOfFrame(pins)
+		else:
+			return self.handleAnyRollAfterFirstRollOfFrame(pins) 
+	
+	def handleFirstRollOfFrame(self, pinsHit): 
+		self.setUpFrameStatsStructure()
+		self.fillInFrameStatsWithPinsHit(pinsHit) 
+		self.decideWhatToDo4FirstRoll()
+
+	def handleAnyRollAfterFirstRollOfFrame(self, pinsHit): 
+		if self.whichRollInFrame <= 3: 
+			self.fillInFrameStatsWithPinsHit(pinsHit)
+			if self.whichRollInFrame == 2: 
+				self.decideWhatToDo4SecondRoll() 
+			elif self.whichRollInFrame == 3:
+				self.fillInScoreBoard(True)
+		else: 
+			return "no more than three balls can be rolled in tenth frame"
+
+	def setUpFrameStatsStructure(self): 
+		if self.frameOn == self.frameMax: 
+			self.frameStats= {'1': None, '2': None, '3': None }
+		else: 
+			self.frameStats= {'1': None, '2': None }
+
+	def fillInFrameStatsWithPinsHit(self, pins): 
+		#fill in the frame stats fpr roll #1
+		self.frameStats[str(self.whichRollInFrame)]= pins
 		#add to stats
 		self.stats.append(pins)
-	
-		if self.whichRollInFrame == 1: 
-			#set up frame stats structure for fram 10 
-			if self.frameOn == 10: 
-				self.frameStats= {'1': None, '2': None, '3': None }
+
+	def decideWhatToDo4FirstRoll(self): 
+		if self.isStrike(self.frameStats['1']): 
+			if self.frameOn != self.frameMax:
+				self.fillInScoreBoard()
 			else: 
-				self.frameStats= {'1': None, '2': None }
+				self.moveToNextRollOrReset()
+		else: 
+			self.moveToNextRollOrReset()
 
-			#fill in the frame stats fpr roll #1
-			self.frameStats[str(self.whichRollInFrame)]= pins
-			
-			#CHECK  to see if strike 
-			if self.frameStats['1'] == 10: 
-				
-				#check see if not frame 10
-				if self.frameOn != 10:
-					#this is a strike so fill in score board
-					self.scoreBoard[str(self.frameOn)] = self.frameStats
+	def decideWhatToDo4SecondRoll(self): 	
+		if self.frameOn == self.frameMax: 
+		  	if self.isStrike(self.frameStats['1']) or self.isSpare(self.frameStats['1'],self.frameStats['2']):
+				self.moveToNextRollOrReset()
+		else: 
+			self.fillInScoreBoard()
+			self.moveToNextRollOrReset(1)
 
-					# move to the next frame
-					self.frameOn += 1
-				else: 
-					#in the 10th so just move to the next roll
-					self.whichRollInFrame += 1
-			else: 
-				#they didnt roll a strike
-				#to the next roll 
-				self.whichRollInFrame += 1
-		else:
-			#fill in the frame stats for roll(2nd or 3rd if on 10th)
-			self.frameStats[str(self.whichRollInFrame)]= pins  
+	def fillInScoreBoard(self, tenthFrame = None): 
+		self.scoreBoard[str(self.frameOn)] = self.frameStats
+		if tenthFrame: 
+			self.moveToNextRollOrReset()
+		else: 
+			self.moveToNextFrame()
 
-			if self.whichRollInFrame == 2: 
-				#SEE IF we are in the 10th
-				if self.frameOn == 10: 
-					#check to see if they rolled spare or strike in 1oth
-				  	if self.frameStats['1'] == 10 or self.frameStats['1'] + self.frameStats['2'] == 10:
-						#move to the next roll in frame(they get the 3rd bonus roll)
-						self.whichRollInFrame +=1
-				else: 
-					#tfill in score board no additional roll permitted
-					self.scoreBoard[str(self.frameOn)] = self.frameStats
-					#move to the next frame
-					self.frameOn += 1
-					#set roll 
-					self.whichRollInFrame = 1
+	def moveToNextFrame(self):
+		self.frameOn += 1
 
-			elif self.whichRollInFrame == 3:
-			 		#tfill in score board no additional roll permitted
-					self.scoreBoard[str(self.frameOn)] = self.frameStats
-					#make sure roll is set to 4 and there is no comming back
-					self.whichRollInFrame +=1
-			else:
-				return "no more than three balls can be rolled in tenth frame"
+	def moveToNextRollOrReset(self, number= None):
+		if number: 
+			self.whichRollInFrame = 1
+		else:	
+			self.whichRollInFrame += 1
 
 	def score(self): 
 		score = 0
 		rollIndex = 0
-		for x in range(self.frame):
+		for x in range(self.frameMax):
 			score = self.addScoreBasedOnIfStrikeOrSpare(score, rollIndex)
-			
 			rollIndex = self.addToRollIndex(rollIndex)
-			
 		return score
 	
-	def isSpare(self, rollIndex): 
-		return self.stats[rollIndex] + self.stats[rollIndex+1] == self.spearOrStrike
+	def isSpare(self, pinHitOnRollOne, pinHitOnRollTwo): 
+		return pinHitOnRollOne + pinHitOnRollTwo == self.spearOrStrike
 
-	def isStrike(self, rollIndex): 
-		return self.stats[rollIndex] == self.spearOrStrike
+	def isStrike(self, pinsHit): 
+		return pinsHit == self.spearOrStrike
 
 	def addToRollIndex(self, rollIndex): 
-		if self.isStrike(rollIndex): 
+		if self.isStrike(self.stats[rollIndex]): 
 			rollIndex += 1
 		else: 
 			rollIndex += 2
@@ -97,7 +103,7 @@ class Game(object):
 		return addToScore
 
 	def addScoreBasedOnIfStrikeOrSpare(self, score, rollIndex): 
-		if self.isStrike(rollIndex) or self.isSpare(rollIndex):  
+		if self.isStrike(self.stats[rollIndex]) or self.isSpare(self.stats[rollIndex], self.stats[rollIndex+1]):  
 			score += self.addToScoreThisManyRolls(3, rollIndex)
 		else: 
 			score += self.addToScoreThisManyRolls(2, rollIndex)
