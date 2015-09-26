@@ -1,7 +1,15 @@
 #start empty
 class Sitter(object):
 	def __init__ (self):	
-		self.start = None
+		self.startToBedPay = 12
+		self.bedToMidnightPay = 8 
 
-	def calculatePay(self, start, leave): 
-		return 12
+	def calculatePay(self, startTime, leaveTime, bedTime): 
+		if startTime != bedTime:
+			pay = self.startToBedPay * (leaveTime - startTime)
+		else:
+			pay = self.bedToMidnightPay * (leaveTime - startTime)
+
+		return pay 
+
+
