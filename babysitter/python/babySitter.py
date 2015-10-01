@@ -6,7 +6,9 @@ class Sitter(object):
 		self.midnightPay = 16
 
 	def calculatePay(self, startTime, leaveTime, bedTime): 
-		if startTime == 12:
+		if startTime < 5: 
+			raise Exception("Baby sitting starts no earlier than 5:00PM") 
+		elif startTime == 12:
 			return ((12+leaveTime) - startTime) * self.midnightPay
 		elif startTime != bedTime:
 			pay = self.startToBedPay * (leaveTime - startTime)
