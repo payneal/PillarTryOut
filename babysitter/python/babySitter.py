@@ -7,7 +7,7 @@ class Sitter(object):
 
 	def calculatePay(self, startTime, leaveTime, bedTime): 
 		if startTime == 12:
-			return midnightPay
+			return ((12+leaveTime) - startTime) * self.midnightPay
 		elif startTime != bedTime:
 			pay = self.startToBedPay * (leaveTime - startTime)
 		else:

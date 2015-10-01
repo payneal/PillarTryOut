@@ -27,8 +27,9 @@ class TestBabySitter(unittest.TestCase):
 		sitterPay = self.sitter.calculatePay(12,1,11)
 		self.assertEquals(sitterPay, 16)
 
-
-
+	def test_startTime_12am_leaveTime_2_bedtime_11_hours_2_testing_32_hour_pay_from_12am_to_end_of_Job(self):
+		sitterPay = self.sitter.calculatePay(12,2,11)
+		self.assertEquals(sitterPay, 32)		
 		
 
 if __name__ == '__main__':
