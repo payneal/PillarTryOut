@@ -4,44 +4,50 @@ class Sitter(object):
 		self.startToBedPay = 12
 		self.bedToMidnightPay = 8 
 		self.midnightPay = 16
+	
+		self.start = {'hour': None, "meridiem": None}
+		self.leave = {'hour': None, "meridiem": None}
+		self.bed = {'hour': None, "meridiem": None}
+
+	def getAMorPMfromTimeString(self, timeString):
+		amOrPM = None
+		if "AM" in timeString:
+			amOrPM = "AM"
+			return  self.getTimeFromString("AM", timeString), amOrPM
+		else:
+			amOrPM = "PM"
+			return  self.getTimeFromString("PM", timeString), amOrPM
+		
+	def getTimeFromString(self, meridiem, timeString): 
+		return int(timeString.replace(meridiem, ""))
+
+	def setBabysittingTimes(self, startTime, leaveTime, bedTime): 
+		self.start['hour'], self.start['meridiem'] = self.getAMorPMfromTimeString(startTime)
+		self.leave['hour'], self.leave['meridiem'] = self.getAMorPMfromTimeString(leaveTime)
+		self.checkValidStartAndLeave()
+		self.bed['hour'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
+
+	def checkValidStartAndLeave(self): 
+		if self.start['hour'] < 5:
+			raise Exception("Baby sitting starts no earlier than 5:00PM") 
+		elif self.leave['hour'] > 4 and self.leave['hour'] != 12 and self.leave['meridiem'] == "AM" : 
+			 raise Exception("Baby sitting ends no later than 4:00AM") 
 
 	def calculatePay(self, startTime, leaveTime, bedTime): 
-
-		amOrPMStart = None
-		if "AM" in startTime: 
-			amOrPMStart = "AM"
-			startTime = startTime.replace("AM", "")
-		else:
-			amOrPMStart = "PM"
-			startTime = startTime.replace("PM", "")
+		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
 		
-		startTime = int(startTime)
-
-		amOrPMLeave = None
-		if "AM" in leaveTime: 
-			amOrPMLeave = "AM"
-			leaveTime = leaveTime.replace("AM", "")
+		if self.start['hour']  == 12:
+			pay =  ((12 + self.leave['hour'] ) - self.start['hour']) * self.midnightPay
+		elif self.start['hour'] != self.bed['hour']:
+			pay = self.startToBedPay * (self.leave['hour'] - self.start['hour'])
 		else:
-			amOrPMLeave = "PM"
-			leaveTime =  leaveTime.replace("PM", "")
-		
-		leaveTime = int(leaveTime)
-
-		bedTime = bedTime.replace("PM", "")
-		bedTime = int(bedTime)
-		
-
-		if startTime < 5:
-			raise Exception("Baby sitting starts no earlier than 5:00PM") 
-		elif leaveTime > 4 and leaveTime != 12 and amOrPMLeave == "AM" : 
-			 raise Exception("Baby sitting ends no later than 4:00AM") 
-		elif startTime == 12:
-			return ((12+leaveTime) - startTime) * self.midnightPay
-		elif startTime != bedTime:
-			pay = self.startToBedPay * (leaveTime - startTime)
-		else:
-			pay = self.bedToMidnightPay * (leaveTime - startTime)
+			pay = self.bedToMidnightPay * (self.leave['hour'] - self.start['hour'])
 
 		return pay 
+
+
+
+
+
 
 
