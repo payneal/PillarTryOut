@@ -39,7 +39,11 @@ class Sitter(object):
 		if self.start['hour']  == 12:
 			pay =  ((12 + self.leave['hour'] ) - self.start['hour']) * self.midnightPay
 		elif self.start['hour'] != self.bed['hour']:
-			pay = self.startToBedPay * (self.leave['hour'] - self.start['hour'])
+			
+			if self.leave['meridiem'] == 'AM' and self.bed['meridiem'] == 'AM': 
+				pay = 20
+			else: 
+				pay = self.startToBedPay * (self.leave['hour'] - self.start['hour'])
 		else:
 			pay = self.bedToMidnightPay * (self.leave['hour'] - self.start['hour'])
 
