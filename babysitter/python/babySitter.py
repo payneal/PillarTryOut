@@ -19,7 +19,13 @@ class Sitter(object):
 			return  self.getTimeFromString("PM", timeString), amOrPM
 		
 	def getTimeFromString(self, meridiem, timeString): 
-		return int(timeString.replace(meridiem, ""))
+		timeString = timeString.replace(meridiem, "")
+		if ":" in timeString:
+			 timeList= timeString.split(':')
+			 return int(timeList[0])
+		else:	
+			return int(timeString)
+
 
 	def setBabysittingTimes(self, startTime, leaveTime, bedTime): 
 		self.start['hour'], self.start['meridiem'] = self.getAMorPMfromTimeString(startTime)
