@@ -33,24 +33,34 @@ class Sitter(object):
 		elif self.leave['hour'] > 4 and self.leave['hour'] != 12 and self.leave['meridiem'] == "AM" : 
 			 raise Exception("Baby sitting ends no later than 4:00AM") 
 
+	def calculateTotalHours(self): 
+		if self.leave['hour'] >  self.start['hour']: 
+			return self.leave['hour'] - self.start['hour']
+		else: 
+			return (12 + self.leave['hour']) - self.start['hour']
+
 	def calculatePay(self, startTime, leaveTime, bedTime): 
 		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
 		
-		if self.start['hour']  == 12:
-			pay =  ((12 + self.leave['hour'] ) - self.start['hour']) * self.midnightPay
-		elif self.start['hour'] != self.bed['hour']:
+		current = self.start
+		pay = 0
+
+		for x in range( self.calculateTotalHours()):
+			if current['hour'] == 12 or current['hour'] < 5:
+				pay +=  self.midnightPay
+				if current['hour'] == 12: 
+					current['hour'] = 1 
+					current['meridiem'] = "AM"
+				else: 
+					current['hour'] += 1
+			elif current['hour'] < self.bed['hour'] and current['hour'] < 12:
+				pay += self.startToBedPay
+				current['hour'] += 1
 			
-			if self.leave['meridiem'] == 'AM' and self.bed['meridiem'] == 'AM': 
-				pay = 20
-			else: 
-				pay = self.startToBedPay * (self.leave['hour'] - self.start['hour'])
-		else:
-			pay = self.bedToMidnightPay * (self.leave['hour'] - self.start['hour'])
-
-		return pay 
-
-
-
+			elif current['hour'] >= self.bed['hour'] and current['hour'] < 12:
+				pay += self.bedToMidnightPay 	
+				current['hour'] += 1	
+		return pay
 
 
 
