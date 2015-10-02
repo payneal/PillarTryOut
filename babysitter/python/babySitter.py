@@ -27,7 +27,6 @@ class Sitter(object):
 		self.checkValidStartAndLeave()
 		if bedTime == None: 
 			self.bed = None
-	
 		else: 
 			self.bed['hour'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
 
