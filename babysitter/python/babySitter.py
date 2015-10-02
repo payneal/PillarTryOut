@@ -43,15 +43,25 @@ class Sitter(object):
 			 raise Exception("Baby sitting ends no later than 4:00AM") 
 
 	def calculateTotalHours(self): 
+		hours = self.dealWithHrsInRegardToTotalHours() 
+		return self.dealWithMinsInRegardToTotalHours(hours)
+
+	def dealWithHrsInRegardToTotalHours(self):
+		hours= 0  
 		if self.leave['hour'] >  self.start['hour']: 
 			hours = self.leave['hour'] - self.start['hour']
 		else: 
 			hours = (12 + self.leave['hour']) - self.start['hour']
+		return hours
 
+	def dealWithMinsInRegardToTotalHours(self, hours): 
 		if (self.start['min'] + self.leave['min']) % 60 != 0 and self.start['min'] > self.leave['min']: 
 			hours -=1
-
-		return hours 
+		
+		if self.bed != None: 
+		 	if (self.start['min'] + self.bed['min']) % 60 != 0 and self.leave['min'] < self.bed['min']: 
+				hours -=1 
+		return hours
 
 	def calculatePay(self, startTime, leaveTime, bedTime= None): 
 		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
@@ -76,5 +86,9 @@ class Sitter(object):
 				current['hour'] += 1	
 		return pay
 
+if __name__ == '__main__':
+    sitter = Sitter() 
+
+    print sitter.calculatePay("5:10PM", "7:10PM", "6:30PM")
 
 
