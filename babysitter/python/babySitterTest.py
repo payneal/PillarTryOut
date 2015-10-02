@@ -7,6 +7,10 @@ class TestBabySitter(unittest.TestCase):
 	def setUp(self):
 		self.sitter = Sitter()
 
+	def test_inputing_no_bedtime(self): 
+		sitterPay = self.sitter.calculatePay("5PM","6PM")
+		self.assertEqual(sitterPay, 12)
+
 	def test_startTime_5_leaveTime_6_bedTime_7_hours_1_pay_12(self):
 		sitterPay = self.sitter.calculatePay("5PM","6PM","7PM")
 		self.assertEqual(sitterPay, 12)
@@ -47,6 +51,9 @@ class TestBabySitter(unittest.TestCase):
 	def test_1hr_start2bed_1hr_bed2midnight_1hrmidnight2leave_pay36(self): 
 		sitterPay = self.sitter.calculatePay("10PM","1AM","11PM")	
 		self.assertEquals (sitterPay, 36)
+
+
+	#def test_gets_paid_for_full_hours_will_start_5_leave_6_05_bed_7_pass_hour_bedtime(self)
 
 	def test_throws_execption_error_if_babysitter_leave_time_after_4(self):
 		with self.assertRaises(Exception) as context:

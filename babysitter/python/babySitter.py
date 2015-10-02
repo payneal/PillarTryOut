@@ -25,7 +25,10 @@ class Sitter(object):
 		self.start['hour'], self.start['meridiem'] = self.getAMorPMfromTimeString(startTime)
 		self.leave['hour'], self.leave['meridiem'] = self.getAMorPMfromTimeString(leaveTime)
 		self.checkValidStartAndLeave()
-		self.bed['hour'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
+		if bedTime == None: 
+			self.bed['hour'] = self.leave['hour'] +1 
+		else: 
+			self.bed['hour'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
 
 	def checkValidStartAndLeave(self): 
 		if self.start['hour'] < 5:
@@ -39,7 +42,7 @@ class Sitter(object):
 		else: 
 			return (12 + self.leave['hour']) - self.start['hour']
 
-	def calculatePay(self, startTime, leaveTime, bedTime): 
+	def calculatePay(self, startTime, leaveTime, bedTime= None): 
 		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
 		
 		current = self.start
