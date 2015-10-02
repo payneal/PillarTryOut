@@ -68,6 +68,9 @@ class TestBabySitter(unittest.TestCase):
 		sitterPay = self.sitter.calculatePay("5:15PM", "6PM")
 		self.assertEquals (sitterPay, 0)
 
+	def test_gets_paid_for_1_hours_will_start_5_15_leave_6_15_Pay_12(self):
+		sitterPay = self.sitter.calculatePay("5:15PM", "6:15PM")
+		self.assertEquals (sitterPay, 12)
 
 
 
