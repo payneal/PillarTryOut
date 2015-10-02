@@ -62,7 +62,7 @@ class TestBabySitter(unittest.TestCase):
 
 	def test_gets_paid_for_full_hours_will_start_5_leave_6_15_Pay_12(self):
 		sitterPay = sitterPay = self.sitter.calculatePay("5PM", "6:15PM")
-		self.assertEquals (sitterPay, 36)
+		self.assertEquals (sitterPay, 12)
 
 
 	def test_throws_execption_error_if_babysitter_leave_time_after_4(self):
