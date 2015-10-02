@@ -26,7 +26,8 @@ class Sitter(object):
 		self.leave['hour'], self.leave['meridiem'] = self.getAMorPMfromTimeString(leaveTime)
 		self.checkValidStartAndLeave()
 		if bedTime == None: 
-			self.bed['hour'] = self.leave['hour'] +1 
+			self.bed = None
+	
 		else: 
 			self.bed['hour'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
 
@@ -56,7 +57,7 @@ class Sitter(object):
 					current['meridiem'] = "AM"
 				else: 
 					current['hour'] += 1
-			elif current['hour'] < self.bed['hour'] and current['hour'] < 12:
+			elif self.bed == None or current['hour'] < self.bed['hour'] and current['hour'] < 12:
 				pay += self.startToBedPay
 				current['hour'] += 1
 			

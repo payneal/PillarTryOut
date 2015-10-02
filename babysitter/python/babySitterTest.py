@@ -11,6 +11,11 @@ class TestBabySitter(unittest.TestCase):
 		sitterPay = self.sitter.calculatePay("5PM","6PM")
 		self.assertEqual(sitterPay, 12)
 
+	def test_no_bedtime_work_full_day(self):
+		sitterPay = self.sitter.calculatePay("5PM", "4AM")
+		self.assertEqual(sitterPay, 148)
+
+
 	def test_startTime_5_leaveTime_6_bedTime_7_hours_1_pay_12(self):
 		sitterPay = self.sitter.calculatePay("5PM","6PM","7PM")
 		self.assertEqual(sitterPay, 12)
