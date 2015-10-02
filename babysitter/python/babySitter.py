@@ -5,36 +5,36 @@ class Sitter(object):
 		self.bedToMidnightPay = 8 
 		self.midnightPay = 16
 	
-		self.start = {'hour': None, "meridiem": None}
-		self.leave = {'hour': None, "meridiem": None}
-		self.bed = {'hour': None, "meridiem": None}
+		self.start = {'hour': None, 'min': None, "meridiem": None}
+		self.leave = {'hour': None, 'min': None, "meridiem": None}
+		self.bed = {'hour': None, 'min': None, "meridiem": None}
 
 	def getAMorPMfromTimeString(self, timeString):
 		amOrPM = None
 		if "AM" in timeString:
 			amOrPM = "AM"
-			return  self.getTimeFromString("AM", timeString), amOrPM
+			hour, minutes =  self.getTimeFromString("AM", timeString)
 		else:
-			amOrPM = "PM"
-			return  self.getTimeFromString("PM", timeString), amOrPM
+			amOrPM = "PM" 
+			hour, minutes = self.getTimeFromString("PM", timeString)
+		return hour, minutes, amOrPM
 		
 	def getTimeFromString(self, meridiem, timeString): 
 		timeString = timeString.replace(meridiem, "")
 		if ":" in timeString:
 			 timeList= timeString.split(':')
-			 return int(timeList[0])
+			 return int(timeList[0]), int(timeList[1])
 		else:	
-			return int(timeString)
-
+			return int(timeString), 0
 
 	def setBabysittingTimes(self, startTime, leaveTime, bedTime): 
-		self.start['hour'], self.start['meridiem'] = self.getAMorPMfromTimeString(startTime)
-		self.leave['hour'], self.leave['meridiem'] = self.getAMorPMfromTimeString(leaveTime)
+		self.start['hour'], self.start['min'], self.start['meridiem'] = self.getAMorPMfromTimeString(startTime)
+		self.leave['hour'], self.leave['min'], self.leave['meridiem'] = self.getAMorPMfromTimeString(leaveTime)
 		self.checkValidStartAndLeave()
 		if bedTime == None: 
 			self.bed = None
 		else: 
-			self.bed['hour'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
+			self.bed['hour'], self.bed['min'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
 
 	def checkValidStartAndLeave(self): 
 		if self.start['hour'] < 5:
@@ -44,9 +44,14 @@ class Sitter(object):
 
 	def calculateTotalHours(self): 
 		if self.leave['hour'] >  self.start['hour']: 
-			return self.leave['hour'] - self.start['hour']
+			hours = self.leave['hour'] - self.start['hour']
 		else: 
-			return (12 + self.leave['hour']) - self.start['hour']
+			hours = (12 + self.leave['hour']) - self.start['hour']
+
+		if (self.start['min'] + self.leave['min']) % 60 != 0 and self.start['min'] > self.leave['min']: 
+			hours -=1
+
+		return hours 
 
 	def calculatePay(self, startTime, leaveTime, bedTime= None): 
 		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
@@ -70,7 +75,6 @@ class Sitter(object):
 				pay += self.bedToMidnightPay 	
 				current['hour'] += 1	
 		return pay
-
 
 
 
