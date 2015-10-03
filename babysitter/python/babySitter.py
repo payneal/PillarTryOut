@@ -91,23 +91,32 @@ class Sitter(object):
 		current['hour'] += 1
 		return pay, current
 
+	def addStart2BedPayAmountOrBed2MidnightPayAmount(self, pay, current): 
+		if self.start['min'] + self.bed['min'] >= self.secondsInHr: 
+			pay += self.startToBedPay
+		elif self.bed['min'] > 0 and current['hour'] == self.midnight['hour'] -1:
+			current['hour'] += 1
+		else:
+			pay += self.bedToMidnightPay 
+		current['hour'] += 1
+		return pay, current
+
 	def calculatePay(self, startTime, leaveTime, bedTime= None): 
 		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
 
 		current = self.start
 		pay = 0
 		for x in range( self.calculateTotalHours()):
-			#print "pay = {}".format(pay)
 			if current['hour'] == self.midnight['hour'] or current['hour'] < self.babySitterStartsNoEarlierThan['hour']:
 				pay, current = self.addMidnightPayAmount(pay, current)	
 			elif self.bed == None or current['hour'] < self.bed['hour'] and current['hour'] < self.midnight['hour']:
 				pay, current = self.addStart2BedPayAmount(pay, current)
-			elif current['hour'] >= self.bed['hour'] and current['hour'] < self.midnight['hour']:
+			elif current['hour'] == self.bed['hour']: 
+				pay, current = self.addStart2BedPayAmountOrBed2MidnightPayAmount(pay, current)
+			elif current['hour'] > self.bed['hour'] and current['hour'] < self.midnight['hour']:
 				pay, current = self.addBed2MidnightPayAmount(pay, current)		
 		return pay
 
-#if __name__ == '__main__':
-    #sitter =  Sitter() 
-    #print sitter.calculatePay("5:45PM", "4:00AM", "8:30PM")
+
 
 
