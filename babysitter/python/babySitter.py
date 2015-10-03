@@ -4,10 +4,16 @@ class Sitter(object):
 		self.startToBedPay = 12
 		self.bedToMidnightPay = 8 
 		self.midnightPay = 16
-	
+
+		self.babySitterStartsNoEarlierThan = {'hour': 5, 'min': 0, "meridiem":"PM"}
+		self.babySitterLeavesNoEarlierThan = {'hour': 4, 'min': 0, "meridiem":"AM"}
+		self.midnight = {'hour': 12, 'min': 0, "meridiem":"AM"}
+		
 		self.start = {'hour': None, 'min': None, "meridiem": None}
 		self.leave = {'hour': None, 'min': None, "meridiem": None}
 		self.bed = {'hour': None, 'min': None, "meridiem": None}
+
+
 
 	def getAMorPMfromTimeString(self, timeString):
 		amOrPM = None
@@ -37,9 +43,9 @@ class Sitter(object):
 			self.bed['hour'], self.bed['min'], self.bed['meridiem'] = self.getAMorPMfromTimeString(bedTime)
 
 	def checkValidStartAndLeave(self): 
-		if self.start['hour'] < 5:
+		if self.start['hour'] < self.babySitterStartsNoEarlierThan['hour']:
 			raise Exception("Baby sitting starts no earlier than 5:00PM") 
-		elif self.leave['hour'] > 4 and self.leave['hour'] != 12 and self.leave['meridiem'] == "AM" : 
+		elif self.leave['hour'] > self.babySitterLeavesNoEarlierThan['hour'] and self.leave['hour'] != self.midnight['hour'] and self.leave['meridiem'] == "AM" : 
 			 raise Exception("Baby sitting ends no later than 4:00AM") 
 
 	def calculateTotalHours(self): 
@@ -51,7 +57,7 @@ class Sitter(object):
 		if self.leave['hour'] >  self.start['hour']: 
 			hours = self.leave['hour'] - self.start['hour']
 		else: 
-			hours = (12 + self.leave['hour']) - self.start['hour']
+			hours = (self.midnight['hour'] + self.leave['hour']) - self.start['hour']
 		return hours
 
 	def dealWithMinsInRegardToTotalHours(self, hours): 
@@ -63,32 +69,35 @@ class Sitter(object):
 				hours -=1 
 		return hours
 
+	def addMidnightPayAmount(self, pay, current): 
+		pay +=  self.midnightPay
+		if current['hour'] == 12: 
+			current['hour'] = 1 
+			current['meridiem'] = "AM"
+		else: 
+			current['hour'] += 1	
+		return pay, current
+
+	def addBed2MidnightPayAmount(self, pay, current): 
+		if self.bed['min'] > 0 and current['hour'] == 11 :
+			current['hour'] += 1
+		else:
+			pay += self.bedToMidnightPay 	
+			current['hour'] += 1	
+		return pay, current
+
 	def calculatePay(self, startTime, leaveTime, bedTime= None): 
 		self.setBabysittingTimes(startTime, leaveTime, bedTime) 
-		
+
 		current = self.start
 		pay = 0
-
 		for x in range( self.calculateTotalHours()):
 			if current['hour'] == 12 or current['hour'] < 5:
-				pay +=  self.midnightPay
-				if current['hour'] == 12: 
-					current['hour'] = 1 
-					current['meridiem'] = "AM"
-				else: 
-					current['hour'] += 1
+				pay, current = self.addMidnightPayAmount(pay, current)	
 			elif self.bed == None or current['hour'] < self.bed['hour'] and current['hour'] < 12:
 				pay += self.startToBedPay
 				current['hour'] += 1
-			
 			elif current['hour'] >= self.bed['hour'] and current['hour'] < 12:
-				pay += self.bedToMidnightPay 	
-				current['hour'] += 1	
+				pay, current = self.addBed2MidnightPayAmount(pay, current)		
 		return pay
-
-if __name__ == '__main__':
-    sitter = Sitter() 
-
-    print sitter.calculatePay("5:10PM", "7:10PM", "6:30PM")
-
 

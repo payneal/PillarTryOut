@@ -84,6 +84,15 @@ class TestBabySitter(unittest.TestCase):
 		sitterPay = self.sitter.calculatePay("5:10PM", "7:10PM", "6:30PM")
 		self.assertEquals (sitterPay, 12)
 
+	def test_gets_paid_for_0hr30min_start2bed_1hr_bed2leave_pay_8(self):
+		sitterPay = self.sitter.calculatePay("5:00PM", "6:30PM", "5:30PM")
+		self.assertEquals (sitterPay, 8)
+
+	def test_gets_paid_for_0hr30min_start2bed_0hr30min_bed2leave_0hr30min_midnight_pay_0(self):
+		sitterPay = self.sitter.calculatePay("11:00PM", "12:30AM", "11:30PM")
+		self.assertEquals (sitterPay, 0)
+
+
 	def test_throws_execption_error_if_babysitter_leave_time_after_4(self):
 		with self.assertRaises(Exception) as context:
 			self.sitter.calculatePay("12AM","5AM","11PM")
