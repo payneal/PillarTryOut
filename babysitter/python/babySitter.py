@@ -94,11 +94,12 @@ class Sitter(object):
 	def addStart2BedPayAmountOrBed2MidnightPayAmount(self, pay, current): 
 		if self.start['min'] + self.bed['min'] >= self.secondsInHr: 
 			pay += self.startToBedPay
+			current['hour'] += 1
 		elif self.bed['min'] > 0 and current['hour'] == self.midnight['hour'] -1:
 			current['hour'] += 1
 		else:
-			pay += self.bedToMidnightPay 
-		current['hour'] += 1
+			pay += self.bedToMidnightPay
+			current['hour'] += 1 
 		return pay, current
 
 	def calculatePay(self, startTime, leaveTime, bedTime= None): 
