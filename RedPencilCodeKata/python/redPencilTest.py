@@ -12,7 +12,7 @@ class TestRedPencil(unittest.TestCase):
 
 		items = store.getAllItems()
 
-		self.assertIn(items, "shoe")
+		self.assertEqual(items, ["shoe"])
 
 
 
