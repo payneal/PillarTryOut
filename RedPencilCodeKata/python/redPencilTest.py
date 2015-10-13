@@ -21,7 +21,7 @@ class TestRedPencil(unittest.TestCase):
 	def test_changing_price_by_one_percent_doesnt_start_red_pencil(self):
 		self.store.addItem('shoe',100.00)
 		self.store.changePrice('shoe',99.00)
-		answer = self.store.isOnRedPencile('shoe')
+		answer = self.store.isOnRedPencileSale('shoe')
 		self.assertFalse(answer)
 
 if __name__ == '__main__':

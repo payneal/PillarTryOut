@@ -3,6 +3,7 @@ class item(object):
 	def __init__(self, name, price):
 		 self.name = name
 		 self.price = price 
+		 
 
 
 class Shop(object): 
@@ -24,3 +25,7 @@ class Shop(object):
 		for x in self.inStoreItem:
 			if x.name == name:
 				x.price = price
+
+	def isOnRedPencileSale(self,name): 
+		return False
+
