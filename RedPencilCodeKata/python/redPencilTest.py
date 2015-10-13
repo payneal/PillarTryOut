@@ -4,15 +4,19 @@ from redPencil import Shop
 
 class TestRedPencil(unittest.TestCase):
 	def setUp(self):
-		pass
+		self.store = Shop()
 
 	def test_adding_item_to_store(self): 
-		store = Shop()
-		store.addItem('shoe')
-
-		items = store.getAllItems()
-
+		
+		self.store.addItem('shoe')
+		items = self.store.getAllItems()
 		self.assertEqual(items, ["shoe"])
+
+	def test_adding_two_items_to_store(self): 
+		self.store.addItem('shoe')
+		self.store.addItem('tie')
+		items = self.store.getAllItems()
+		self.assertEqual(items, ["shoe", "tie"])
 
 
 
