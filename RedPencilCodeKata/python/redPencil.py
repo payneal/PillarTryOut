@@ -4,8 +4,6 @@ class item(object):
 		 self.name = name
 		 self.price = price 
 		 
-
-
 class Shop(object): 
 	def __init__(self): 
 		self.inStoreItem = [] 
