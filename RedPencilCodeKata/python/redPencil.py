@@ -1,7 +1,10 @@
 
 class Shop(object): 
+	def __init__(self): 
+		self.items = [] 
+
 	def addItem(self, item): 
-		pass
+		self.items.append(item)
 
 	def getAllItems(self): 
-		return ['shoe']
+		return self.items

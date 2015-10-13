@@ -18,7 +18,5 @@ class TestRedPencil(unittest.TestCase):
 		items = self.store.getAllItems()
 		self.assertEqual(items, ["shoe", "tie"])
 
-
-
 if __name__ == '__main__':
     unittest.main()
