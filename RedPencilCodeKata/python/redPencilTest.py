@@ -52,6 +52,11 @@ class TestRedPencil(unittest.TestCase):
 		today = self.getTodaysDate()
 		self.assertEqual(answer,today)
 
+	def test_adding_item_to_store_on_cetrain_date(self):
+		self.store.addItem('shoe',100.00, '1-1-15')
+		answer = self.store.lastPriceChangeDate('shoe')
+		self.assertEqual(answer, '1-1-15')
+
 if __name__ == '__main__':
     unittest.main()
 
