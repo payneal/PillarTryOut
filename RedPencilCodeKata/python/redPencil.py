@@ -32,7 +32,7 @@ class Shop(object):
 	def executePriceChange(self,theItem,newPrice):
 		previousPrice = theItem.price
 		theItem.price = newPrice
-		if newPrice <= (previousPrice - (previousPrice * .05)):
+		if newPrice <= (previousPrice - (previousPrice * .05)) and  newPrice >= (previousPrice - (previousPrice * .30)):
 			theItem.changeRedPencilStatus()
 
 	def isOnRedPencileSale(self,name): 
