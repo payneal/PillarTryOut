@@ -38,6 +38,7 @@ class Shop(object):
 	def isOnRedPencileSale(self,name): 
 		return self.goThroughAllItemsInStore("getRedPencilStatus", name) 
 
-
+	def checkDaysPriceItemStable(self,theItem):
+		return 0
 		
 
