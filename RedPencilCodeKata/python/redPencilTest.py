@@ -52,8 +52,6 @@ class TestRedPencil(unittest.TestCase):
 		today = self.getTodaysDate()
 		self.assertEqual(answer,today)
 
-
-
 if __name__ == '__main__':
     unittest.main()
 

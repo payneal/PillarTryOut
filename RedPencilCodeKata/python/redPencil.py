@@ -40,5 +40,10 @@ class Shop(object):
 
 	def checkDaysPriceItemStable(self,theItem):
 		return 0
+
+	def lastPriceChangeDate(self,theItem):
+		return "10-14-15"
+		#return self.goThroughAllItemsInStore("getPriceChangeDate", name) 
+
 		
 
