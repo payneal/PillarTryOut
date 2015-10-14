@@ -1,10 +1,14 @@
 import unittest
+import time
 
 from redPencil import Shop
 
 class TestRedPencil(unittest.TestCase):
 	def setUp(self):
 		self.store = Shop()
+
+	def getTodaysDate(self):
+		return time.strftime('%m-%d-%y')
 
 	def test_adding_two_items_with_prices(self):
 		self.store.addItem('shoe',5.00)
@@ -40,6 +44,14 @@ class TestRedPencil(unittest.TestCase):
 		self.store.addItem('shoe',100.00)
 		answer = self.store.checkDaysPriceItemStable('shoe')
 		self.assertEqual(answer,0)
+
+	def test_adding_item_store_gives_items_price_change_date_of_today(self):
+		self.store.addItem('shoe',100.00)
+		answer = self.store.lastPriceChangeDate('shoe')
+		#TDD like hard values but thats not possible here ddate changes every day
+		today = self.getTodaysDate()
+		self.assertEqual(answer,today)
+
 
 
 if __name__ == '__main__':
