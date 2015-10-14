@@ -30,11 +30,28 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.isOnRedPencileSale('shoe')
 		self.assertTrue(answer)
 
-	def test_changing_priceB_by_31_percent_doesnt_start_red_pencil(self):
+	def test_changing_price_by_31_percent_doesnt_start_red_pencil(self):
 		self.store.addItem('shoe',100.00)
 		self.store.changePrice('shoe',69.00)
 		answer = self.store.isOnRedPencileSale('shoe')
 		self.assertFalse(answer)
 
+	def test_checking_stable_days_of_just_added_item(self):
+		self.store.addItem('shoe',100.00)
+		answer = self.store.checkDaysPriceItemStable('shoe')
+		self.assertEqual(answer,0)
+
+
 if __name__ == '__main__':
     unittest.main()
+
+
+
+
+
+
+
+
+
+
+
