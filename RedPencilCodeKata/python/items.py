@@ -7,16 +7,16 @@ class item(object):
 		self.price = price 
 		self.dateOfLastPriceChange = date  
 		self.redPencilStatus = False
-		self.setDate()
+		self.setDateForToday()
 
 	def changeRedPencilStatus(self):
 		self.redPencilStatus = True
 
-	def setDate(self):
+	def setDateForToday(self):
 		if self.dateOfLastPriceChange == None:
 			self.dateOfLastPriceChange = str(date.today())
 
-   	def updateDate(self):
+   	def updateDateToToday(self):
    		self.dateOfLastPriceChange = str(date.today())
 
    	def getStablePriceDays(self): 

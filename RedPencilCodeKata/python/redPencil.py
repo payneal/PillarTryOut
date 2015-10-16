@@ -22,17 +22,21 @@ class Shop(object):
 	def getAllItems(self): 
 		return self.goThroughAllItemsInStoreGetAllOrJustOne()  
 	
-	def changePrice(self, name, newPrice):
+	def changePrice(self, name, newPrice, date= None):
 		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name)
-		self.executePriceChange(theItem,newPrice)
+		self.executePriceChange(theItem,newPrice, date)
 
-	def executePriceChange(self,theItem,newPrice):
+	def executePriceChange(self,theItem,newPrice, date= None):
 		previousPrice = theItem.price
 		theItem.price = newPrice
 		if newPrice <= (previousPrice - (previousPrice * .05)) and  newPrice >= (previousPrice - (previousPrice * .30)):
 			if theItem.hadStablePriceFor30Days():
 				theItem.changeRedPencilStatus()
-		theItem.updateDate()
+		if date == None:
+			theItem.updateDateToToday()
+		else: 
+			theItem.dateOfLastPriceChange = date
+
 
 	def isOnRedPencileSale(self,name): 
 		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
