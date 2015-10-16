@@ -8,7 +8,7 @@ class TestRedPencil(unittest.TestCase):
 		self.store = Shop()
 
 	def getTodaysDate(self):
-		return date.today()
+		return str(date.today())
 
 	def test_adding_two_items_with_prices(self):
 		self.store.addItem('shoe',5.00)

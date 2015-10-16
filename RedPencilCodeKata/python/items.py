@@ -1,4 +1,5 @@
-from datetime import timedelta, date
+from datetime import timedelta, date , datetime
+
 
 class item(object):
 	def __init__(self, name, price, date= None):
@@ -13,7 +14,14 @@ class item(object):
 
 	def setDate(self):
 		if self.dateOfLastPriceChange == None:
-			self.dateOfLastPriceChange = date.today()
+			self.dateOfLastPriceChange = str(date.today())
 
    	def updateDate(self):
-   		self.dateOfLastPriceChange = date.today()
+   		self.dateOfLastPriceChange = str(date.today())
+
+   	def getStablePriceDays(self): 
+   		date_object = datetime.strptime( self.dateOfLastPriceChange,'%Y-%m-%d')
+   		d0 = date_object 
+   		d1 = datetime.now() 
+   		delta = d1 - d0
+   		return delta.days

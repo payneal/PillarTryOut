@@ -20,6 +20,8 @@ class Shop(object):
 						return theItem.redPencilStatus
 					elif whatToDoWithItem == "getPriceChangeDate":
 						return theItem.dateOfLastPriceChange
+					elif whatToDoWithItem == "getStablePriceDays":
+						return theItem.getStablePriceDays()
 
 					else: 
 						newPrice = whatToDoWithItem
@@ -43,8 +45,8 @@ class Shop(object):
 	def isOnRedPencileSale(self,name): 
 		return self.goThroughAllItemsInStore("getRedPencilStatus", name) 
 
-	def checkDaysPriceItemStable(self,theItem):
-		return 0
+	def checkDaysPriceItemStable(self,name):
+		return self.goThroughAllItemsInStore("getStablePriceDays", name) 
 
 	def lastPriceChangeDate(self,name):
 		return self.goThroughAllItemsInStore("getPriceChangeDate", name) 
