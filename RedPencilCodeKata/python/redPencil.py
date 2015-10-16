@@ -8,48 +8,41 @@ class Shop(object):
 		newItem = item(name,price, date)
 		self.inStoreItem.append(newItem)
 
-	def goThroughAllItemsInStore(self,whatToDoWithItem, name=None): 
+	def goThroughAllItemsInStoreGetAllOrJustOne(self, name=None): 
 		allItems = []
 		for theItem in self.inStoreItem:
-			if whatToDoWithItem == "getAllItems":
+			if name == None:
 				hold = {theItem.name:{'price': theItem.price}}
 				allItems.append(hold)
-			else: 
+			else:  
 				if theItem.name == name:
-					if whatToDoWithItem == "getRedPencilStatus":
-						return theItem.redPencilStatus
-					elif whatToDoWithItem == "getPriceChangeDate":
-						return theItem.dateOfLastPriceChange
-					elif whatToDoWithItem == "getStablePriceDays":
-						return theItem.getStablePriceDays()
-
-					else: 
-						newPrice = whatToDoWithItem
-						self.executePriceChange(theItem,newPrice)
+					return theItem				
 		return allItems
 
 	def getAllItems(self): 
-		return self.goThroughAllItemsInStore("getAllItems")  
+		return self.goThroughAllItemsInStoreGetAllOrJustOne()  
 	
-	def changePrice(self, name, price):
-		self.goThroughAllItemsInStore(price, name) 
+	def changePrice(self, name, newPrice):
+		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name)
+		self.executePriceChange(theItem,newPrice)
 
 	def executePriceChange(self,theItem,newPrice):
 		previousPrice = theItem.price
 		theItem.price = newPrice
 		if newPrice <= (previousPrice - (previousPrice * .05)) and  newPrice >= (previousPrice - (previousPrice * .30)):
 			theItem.changeRedPencilStatus()
-
 		theItem.updateDate()
 
 	def isOnRedPencileSale(self,name): 
-		return self.goThroughAllItemsInStore("getRedPencilStatus", name) 
+		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
+		return theItem.redPencilStatus
 
 	def checkDaysPriceItemStable(self,name):
-		return self.goThroughAllItemsInStore("getStablePriceDays", name) 
+		theItem =  self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
+		return theItem.getStablePriceDays()
 
 	def lastPriceChangeDate(self,name):
-		return self.goThroughAllItemsInStore("getPriceChangeDate", name) 
-
+		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
+		return theItem.dateOfLastPriceChange
 		
 
