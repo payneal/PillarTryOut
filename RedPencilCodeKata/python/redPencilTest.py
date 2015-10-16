@@ -70,11 +70,17 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.checkDaysPriceItemStable('shoe')
 		self.assertEqual(answer,1)
 
-	def test_Changing_price_when_it_hasnt_been_pass_30days_no_redPencile_status(self): 
+	def test_changing_price_when_it_hasnt_been_pass_30days_no_redPencile_status(self): 
 		self.store.addItem('shoe',100.00)
 		self.store.changePrice('shoe',90.00)
 		answer = self.store.isOnRedPencileSale('shoe')
 		self.assertFalse(answer)
+
+	def test_can_we_set_the_day_the_price_changed(self):
+		self.store.addItem('shoe',100.00, '2015-1-1')
+		self.store.changePrice('shoe',99.00,'2015-10-10')
+		answer = self.store.lastPriceChangeDate('shoe')
+		self.assertEqual(answer, '2015-10-10')
 
 if __name__ == '__main__':
     unittest.main()
