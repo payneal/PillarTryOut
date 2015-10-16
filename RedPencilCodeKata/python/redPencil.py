@@ -4,8 +4,8 @@ class Shop(object):
 	def __init__(self): 
 		self.inStoreItem = [] 
 
-	def addItem(self, name, price): 
-		newItem = item(name,price)
+	def addItem(self, name, price, date=None): 
+		newItem = item(name,price, date)
 		self.inStoreItem.append(newItem)
 
 	def goThroughAllItemsInStore(self,whatToDoWithItem, name=None): 
@@ -18,6 +18,9 @@ class Shop(object):
 				if theItem.name == name:
 					if whatToDoWithItem == "getRedPencilStatus":
 						return theItem.redPencilStatus
+					elif whatToDoWithItem == "getPriceChangeDate":
+						return theItem.dateOfLastPriceChange
+
 					else: 
 						newPrice = whatToDoWithItem
 						self.executePriceChange(theItem,newPrice)
@@ -41,9 +44,8 @@ class Shop(object):
 	def checkDaysPriceItemStable(self,theItem):
 		return 0
 
-	def lastPriceChangeDate(self,theItem):
-		return "10-14-15"
-		#return self.goThroughAllItemsInStore("getPriceChangeDate", name) 
+	def lastPriceChangeDate(self,name):
+		return self.goThroughAllItemsInStore("getPriceChangeDate", name) 
 
 		
 
