@@ -1,4 +1,4 @@
-import time
+from datetime import timedelta, date
 
 class item(object):
 	def __init__(self, name, price, date= None):
@@ -13,7 +13,7 @@ class item(object):
 
 	def setDate(self):
 		if self.dateOfLastPriceChange == None:
-			self.dateOfLastPriceChange = time.strftime('%m-%d-%y')
+			self.dateOfLastPriceChange = date.today()
 
    	def updateDate(self):
-   		self.dateOfLastPriceChange = time.strftime('%m-%d-%y')
+   		self.dateOfLastPriceChange = date.today()
