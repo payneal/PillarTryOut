@@ -57,6 +57,13 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.lastPriceChangeDate('shoe')
 		self.assertEqual(answer, '1-1-15')
 
+	def test_adding_item_past_date_but_change_price_so_price_change_date_is_today(self):
+		self.store.addItem('shoe',100.00, '1-1-15')
+		self.store.changePrice('shoe',69.00)
+		answer = self.store.lastPriceChangeDate('shoe')
+		today = self.getTodaysDate()
+		self.assertEqual(answer,today)
+
 if __name__ == '__main__':
     unittest.main()
 
