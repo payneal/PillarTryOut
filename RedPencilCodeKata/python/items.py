@@ -15,4 +15,5 @@ class item(object):
 		if self.dateOfLastPriceChange == None:
 			self.dateOfLastPriceChange = time.strftime('%m-%d-%y')
 
-   
+   	def updateDate(self):
+   		self.dateOfLastPriceChange = time.strftime('%m-%d-%y')
