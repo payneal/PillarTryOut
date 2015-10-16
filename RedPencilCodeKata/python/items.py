@@ -25,3 +25,10 @@ class item(object):
    		d1 = datetime.now() 
    		delta = d1 - d0
    		return delta.days
+
+   	def hadStablePriceFor30Days(self):
+   		days = self.getStablePriceDays()
+   		if days >= 30: 
+   			return True 
+   		else:
+   			return False

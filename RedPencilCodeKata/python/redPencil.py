@@ -30,7 +30,8 @@ class Shop(object):
 		previousPrice = theItem.price
 		theItem.price = newPrice
 		if newPrice <= (previousPrice - (previousPrice * .05)) and  newPrice >= (previousPrice - (previousPrice * .30)):
-			theItem.changeRedPencilStatus()
+			if theItem.hadStablePriceFor30Days():
+				theItem.changeRedPencilStatus()
 		theItem.updateDate()
 
 	def isOnRedPencileSale(self,name): 

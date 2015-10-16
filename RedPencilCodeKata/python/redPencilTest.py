@@ -70,11 +70,11 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.checkDaysPriceItemStable('shoe')
 		self.assertEqual(answer,1)
 
-	'''def test_Changing_price_when_it_hasnt_been_pass_30days_no_redPencile_status(self): 
+	def test_Changing_price_when_it_hasnt_been_pass_30days_no_redPencile_status(self): 
 		self.store.addItem('shoe',100.00)
-		self.store.changePrice('shoe',95.00)
+		self.store.changePrice('shoe',90.00)
 		answer = self.store.isOnRedPencileSale('shoe')
-		self.assertFalse(answer)'''
+		self.assertFalse(answer)
 
 if __name__ == '__main__':
     unittest.main()
