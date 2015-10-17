@@ -88,6 +88,20 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.isOnRedPencileSale('shoe')
 		self.assertTrue(answer)
 
+	def test_red_pencil_promotion_lasts_30_days_as_the_maximum_Length(self):
+		self.store.addItem('shoe',100.00, '2015-1-1')
+		self.store.changePrice('shoe',95.00, '2015-1-31')
+		answer = self.store.isOnRedPencileSale('shoe')
+		self.assertTrue(answer)
+		answer = self.store.isOnRedPencileSale('shoe', '2015-3-2')
+		self.assertTrue(answer)
+		answer = self.store.isOnRedPencileSale('shoe', '2015-3-3')
+		self.assertFalse(answer)
+
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
 
