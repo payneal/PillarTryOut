@@ -12,6 +12,22 @@ class item(object):
 	def changeRedPencilStatus(self):
 		self.redPencilStatus = True
 
+	def getRedPencilStatus(self, futureDate=None):
+		if futureDate: 
+			date_object = datetime.strptime( self.dateOfLastPriceChange,'%Y-%m-%d')
+   			d0 = date_object 
+   			date_object = datetime.strptime( futureDate,'%Y-%m-%d')
+   			d1 = date_object 
+   			delta = d1 -d0
+   			
+   			if delta.days <= 30:
+   				return True 
+   			else:
+   				return False
+		else:
+			return self.redPencilStatus
+
+
 	def setDateForToday(self):
 		if self.dateOfLastPriceChange == None:
 			self.dateOfLastPriceChange = str(date.today())
@@ -32,3 +48,11 @@ class item(object):
    			return True 
    		else:
    			return False
+
+
+
+
+
+
+
+

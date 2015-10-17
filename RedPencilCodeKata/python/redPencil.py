@@ -37,10 +37,12 @@ class Shop(object):
 		else: 
 			theItem.dateOfLastPriceChange = date
 
-
-	def isOnRedPencileSale(self,name): 
-		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
-		return theItem.redPencilStatus
+	def isOnRedPencileSale(self,name, futureDate=None): 
+		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name)
+		if futureDate:
+			 return theItem.getRedPencilStatus(futureDate)
+		else:
+			return theItem.getRedPencilStatus()
 
 	def checkDaysPriceItemStable(self,name):
 		theItem =  self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
