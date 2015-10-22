@@ -53,5 +53,10 @@ class Shop(object):
 	def lastPriceChangeDate(self,name):
 		theItem = self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
 		return theItem.dateOfLastPriceChange
+
+	def getOriginalPrice(self, name):
+		theItem =  self.goThroughAllItemsInStoreGetAllOrJustOne(name) 
+		return theItem.originalPrice
+
 		
 

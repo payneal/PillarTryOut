@@ -107,6 +107,14 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.isOnRedPencileSale('shoe')
 		self.assertFalse(answer)
 
+	def test_see_if_original_price_is_store(self):
+		self.store.addItem('shoe',100.00, '2015-1-1')
+		answer = self.store.getOriginalPrice('shoe')
+		self.assertEqual(answer, 100)
+		self.store.changePrice('shoe',95.00, '2015-1-31')
+		answer = self.store.getOriginalPrice('shoe')
+		self.assertEqual(answer, 100)
+
 
 
 
