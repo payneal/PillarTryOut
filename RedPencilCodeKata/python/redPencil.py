@@ -29,7 +29,9 @@ class Shop(object):
 	def executePriceChange(self,theItem,newPrice, date= None):
 		previousPrice = theItem.price
 		theItem.price = newPrice
-		if newPrice <= (previousPrice - (previousPrice * .05)) and  newPrice >= (previousPrice - (previousPrice * .30)):
+		if theItem.redPencilStatus == True:
+			theItem.redPencilStatus = False
+		elif newPrice <= (previousPrice - (previousPrice * .05)) and  newPrice >= (previousPrice - (previousPrice * .30)):
 			if theItem.hadStablePriceFor30Days():
 				theItem.changeRedPencilStatus()
 		if date == None:
