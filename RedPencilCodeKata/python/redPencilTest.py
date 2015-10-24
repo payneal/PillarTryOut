@@ -98,15 +98,6 @@ class TestRedPencil(unittest.TestCase):
 		answer = self.store.isOnRedPencileSale('shoe', '2015-3-3')
 		self.assertFalse(answer)
 
-	def test_price_is_reduced_further_while_on_red_pencil_which_ends_red_pencil_status(self): 
-		self.store.addItem('shoe',100.00, '2015-1-1')
-		self.store.changePrice('shoe',95.00, '2015-1-31')
-		answer = self.store.isOnRedPencileSale('shoe')
-		self.assertTrue(answer)
-		self.store.changePrice('shoe',75.00, '2015-2-05')
-		answer = self.store.isOnRedPencileSale('shoe')
-		self.assertFalse(answer)
-
 	def test_see_if_original_price_is_store(self):
 		self.store.addItem('shoe',100.00, '2015-1-1')
 		answer = self.store.getOriginalPrice('shoe')
@@ -114,6 +105,21 @@ class TestRedPencil(unittest.TestCase):
 		self.store.changePrice('shoe',95.00, '2015-1-31')
 		answer = self.store.getOriginalPrice('shoe')
 		self.assertEqual(answer, 100)
+
+	#If the price is further reduced during the red pencil promotion
+	# the promotion will not be prolonged by that reduction
+	def test_price_is_reduced_further_while_on_red_pencil_which_ends_red_pencil_status(self): 
+		self.store.addItem('shoe',100.00, '2015-1-1')
+		self.store.changePrice('shoe',95.00, '2015-1-31')
+		answer = self.store.isOnRedPencileSale('shoe', '2015-1-31')
+		self.assertTrue(answer)
+		self.store.changePrice('shoe',94.00, '2015-2-05')
+		answer = self.store.isOnRedPencileSale('shoe','2015-3-01')
+		self.assertFalse(answer)
+		answer = self.store.isOnRedPencileSale('shoe','2015-3-02')
+		self.assertFalse(answer)
+
+
 
 
 
