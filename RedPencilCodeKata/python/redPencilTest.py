@@ -115,7 +115,7 @@ class TestRedPencil(unittest.TestCase):
 		self.assertTrue(answer)
 		self.store.changePrice('shoe',94.00, '2015-2-05')
 		answer = self.store.isOnRedPencileSale('shoe','2015-3-01')
-		self.assertFalse(answer)
+		self.assertTrue(answer)
 		answer = self.store.isOnRedPencileSale('shoe','2015-3-02')
 		self.assertFalse(answer)
 
