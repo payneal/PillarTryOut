@@ -1,0 +1,16 @@
+{
+    "name" : "ZipScene-Coding-Test",
+    "repository": {
+        "type" : "git", 
+        "url": "https://github.com/payneal/ZIpSceneChallenge"
+    }, 
+    "description": "coding challeneg for zipscene using (TDD)", 
+    "author": "Ali Payne", 
+    "version": "0.0.1",
+    "devDependencies": {
+        "mocha" : "2.3.4"
+    },
+    "scripts": {
+        "test": "mocha"
+    }
+} 
