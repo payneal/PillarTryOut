@@ -1,4 +1,3 @@
-
 # Calendar Kata
 
 ## Background

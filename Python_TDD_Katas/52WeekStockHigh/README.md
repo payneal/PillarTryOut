@@ -13,8 +13,8 @@ This kata allows one to enter a date and that date brings up the stock:
 ### Feature:
 * if you want to know the stock 52 week highs for any day from today to may 1st 2007 just enter year, month day as a string and then call function stockHighs()
 
-*This is a portion of a larger system
+* This is a portion of a larger system
 
 ### potential errors:
-* doesnt catch days that the market is closed
+* doesnt catch days that the market is closed (holidays)
 
