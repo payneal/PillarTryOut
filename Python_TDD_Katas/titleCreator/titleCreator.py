@@ -25,12 +25,12 @@ class TitleCreator:
         for x in range(1, string):
             if self.string[x] not in self.letters:
                 self.string[x] =  self.string[x][0].upper() + self.string[x][1:]
-    
+
     def titleCreator(self):
         if self.letters:        
             letterAmount, stringAmount = \
                 self.__getLengthOfLettersAndString()
-            self.__capFirstLetter();
+            self.__capFirstLetter()
             self.__startCapin(letterAmount, stringAmount)
         return ' '.join(self.string)
    

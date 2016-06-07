@@ -16,5 +16,11 @@ class TestStockHighNyse(unittest.TestCase):
         createdTitle = TitleCreator(string, caps)
         self.assertEqual('A Clash of Kings', createdTitle.titleCreator())
 
+    def test_THE_WIND_IN_THE_WILLOWS(self):
+        string = 'THE WIND IN THE WILLOWS'
+        caps = 'The In'
+        createdTitle = TitleCreator(string, caps)
+        self.assertEqual('The Wind in the Willows', createdTitle.titleCreator())
+
 if __name__ == '__main__':
     unittest.main()
