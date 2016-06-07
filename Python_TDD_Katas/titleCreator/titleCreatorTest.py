@@ -9,6 +9,12 @@ class TestStockHighNyse(unittest.TestCase):
         string = '';
         createdTitle = TitleCreator(string)
         self.assertEqual(string, createdTitle.titleCreator())
-    
+    # itle_case('a clash of KINGS', 'a an the of') # should return: 'A Clash of Kings'
+    def test_one_A_Clash_of_Kings(self):
+        string = 'a clash of Kings'
+        caps = 'a an the of'
+        createdTitle = TitleCreator(string, caps)
+        self.assertEqual('A Clash of Kings', createdTitle.titleCreator())
+
 if __name__ == '__main__':
     unittest.main()
