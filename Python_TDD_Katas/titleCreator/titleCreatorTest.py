@@ -22,5 +22,10 @@ class TestStockHighNyse(unittest.TestCase):
         createdTitle = TitleCreator(string, caps)
         self.assertEqual('The Wind in the Willows', createdTitle.titleCreator())
 
+    def test_the_quick_brown_fox(self):
+        string = 'the quick brown fox'
+        createdTitle = TitleCreator(string)
+        self.assertEqual('The Quick Brown Fox', createdTitle.titleCreator())
+
 if __name__ == '__main__':
     unittest.main()
