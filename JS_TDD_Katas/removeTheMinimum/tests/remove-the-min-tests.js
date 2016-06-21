@@ -12,5 +12,20 @@ describe("remove the min", function() {
             let expected = [2,3,4,5]; 
             expect(removeTheMin.remove_smallest(numbers)).to.deep.equal(expected);
         });
+        it('case 2', function() {
+            let removeTheMin = new RemoveTheMin();
+            let numbers = [5,3,2,1,4];
+            let expected = [5,3,2,4]; 
+            expect(removeTheMin.remove_smallest(numbers)).to.deep.equal(expected);
+        });
+         it('case 3', function() {
+            let removeTheMin = new RemoveTheMin();
+            let numbers = [2,2,1,2,1];
+            let expected = [2,2,2,1]; 
+            expect(removeTheMin.remove_smallest(numbers)).to.deep.equal(expected);
+        });
+
+
+
     });
 });
