@@ -21,3 +21,9 @@
 ### Title Creator
 * Creates Propper Book Titles
 
+### Match My Husband
+* matches woman based mens ratings
+
+### Stop Spinning my words
+* reverses words with 5 more letters
+
