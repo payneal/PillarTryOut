@@ -27,3 +27,5 @@
 ### Stop Spinning my words
 * reverses words with 5 more letters
 
+### Double Cola
+* determin who will get the doble cola from the vending machine
