@@ -9,6 +9,10 @@
 ### Weird Sting case 
 * program thats string and returns the same string with all even casesed chars in each word upper cased
 
+### Allies
+* :how many small cubes are not visible from outside
+
+
 ## resources:
 * https://www.codementor.io/nodejs/tutorial/unit-testing-nodejs-tdd-mocha-sinon
 * http://chaijs.com/api/bdd/

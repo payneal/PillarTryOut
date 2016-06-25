@@ -4,4 +4,6 @@ class DoubleCola:
         pass
 
     def whoIsNext(self, names, double):
-        return names[0]
+        if double <= len(names):
+            return names[double-1]
+        return names[(double % len(names))]
