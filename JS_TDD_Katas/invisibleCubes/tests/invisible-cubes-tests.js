@@ -12,4 +12,8 @@ describe('Invisible Cubes', function() {
         var notVisible = invisibleCubes.notVisibleCubes(3); 
         expect(notVisible).to.eql(1);
     });
+    it('entering 5 rows should return 1 not visible from outside', function(){
+        var notVisible = invisibleCubes.notVisibleCubes(5); 
+        expect(notVisible).to.eql(27);
+    });
 });
