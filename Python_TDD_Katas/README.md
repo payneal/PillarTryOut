@@ -29,3 +29,7 @@
 
 ### Double Cola
 * determin who will get the doble cola from the vending machine
+
+### Bot disabler
+* determin if a bot should be disabled or not
+
