@@ -3,4 +3,7 @@ class RomanNumeral:
         pass
 
     def convert(self, entry):
-        return "I"
+        roman = ""
+        for x in range(0, entry):
+            roman += "I"
+        return roman
