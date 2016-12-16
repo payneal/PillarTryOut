@@ -7,7 +7,7 @@ class TestRomalNumeralConverter(unittest.TestCase):
         self.romanNumeral = RomanNumeral()
 
     def tearDown(self):
-        self.converter = None
+        self.romanNumeral = None
 
     def test_convert_1_to_I(self):
         self.assertEqual(self.romanNumeral.convert(1), "I")
