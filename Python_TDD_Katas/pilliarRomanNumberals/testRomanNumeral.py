@@ -15,6 +15,9 @@ class TestRomalNumeralConverter(unittest.TestCase):
     def test_convert_3_to_III(self):
         self.assertEqual(self.romanNumeral.convert(3), "III")
 
+    def test_convert_4_to_IV(self):
+        self.assertEqual(self.romanNumeral.convert(4), "IV")
+
     def test_convert_9_to_IX(self):
         self.assertEqual(self.romanNumeral.convert(9), "IX")
 
