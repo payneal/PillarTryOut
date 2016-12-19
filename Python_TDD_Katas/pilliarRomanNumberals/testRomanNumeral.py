@@ -9,6 +9,9 @@ class TestRomalNumeralConverter(unittest.TestCase):
     def tearDown(self):
         self.romanNumeral = None
 
+    def test_convert_0_to_None(self):
+        self.assertEqual(self.romanNumeral.convert(0), "")
+
     def test_convert_1_to_I(self):
         self.assertEqual(self.romanNumeral.convert(1), "I")
 
