@@ -13,19 +13,25 @@ class RomanNumeral:
     def __startConversionProcess(self, indexOfRoman, number):
         if number == self.roman[indexOfRoman]['value']:
             self.converted = self.roman[indexOfRoman]['letter']
+        elif number < self.roman[indexOfRoman]['value']:
+            self.__createConversionNumberLowerThanRoman(indexOfRoman, number)
         else:
-            self.__createConversionWithLowerRoman(indexOfRoman, number)
+            self.__createConversionNumberHigherThanRoman(indexOfRoman, number)
 
     def __findClosestValueToNumber(self, number):
         for index, x in enumerate(self.roman):
             if x['value'] >= number:
                 return index
+        return len(self.roman) - 1
 
-    def __createConversionWithLowerRoman(self, indexOfRoman, number):
+    def __createConversionNumberLowerThanRoman(self, indexOfRoman, number):
         if number <= self.roman[indexOfRoman - 1]['limit']:
             self.__addToConvertedString(False, number)
         else:
             self.__considerRomanNumeralRules(indexOfRoman, number)
+
+    def __createConversionNumberHigherThanRoman(self, indexOfRoman, number):
+        self.converted = 'XII'
 
     def __considerRomanNumeralRules(self, indexOfRoman, number):
         self.converted += self.roman[indexOfRoman]['letter']
