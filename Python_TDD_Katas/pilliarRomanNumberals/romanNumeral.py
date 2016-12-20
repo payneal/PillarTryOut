@@ -12,7 +12,7 @@ class RomanNumeral:
 
     def __startConversionProcess(self, indexOfRoman, number):
         if number == self.roman[indexOfRoman]['value']:
-            self.converted = self.roman[indexOfRoman]['letter']
+            self.converted += self.roman[indexOfRoman]['letter']
         elif number < self.roman[indexOfRoman]['value']:
             self.__createConversionNumberLowerThanRoman(indexOfRoman, number)
         else:
