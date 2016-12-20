@@ -31,7 +31,9 @@ class RomanNumeral:
             self.__considerRomanNumeralRules(indexOfRoman, number)
 
     def __createConversionNumberHigherThanRoman(self, indexOfRoman, number):
-        self.converted = 'XII'
+        self.converted += self.roman[indexOfRoman]['letter']
+        number -= self.roman[indexOfRoman]['value']
+        self.__startConversionProcess(indexOfRoman - 1, number)
 
     def __considerRomanNumeralRules(self, indexOfRoman, number):
         self.converted += self.roman[indexOfRoman]['letter']
