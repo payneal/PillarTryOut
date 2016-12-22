@@ -42,5 +42,8 @@ class TestRomalNumeralConverter(unittest.TestCase):
     def test_convert_20_to_XX(self):
         self.assertEqual(self.romanNumeral.convert(20), "XX")
 
+    def test_convert_24_to_XXIV(self):
+        self.assertEqual(self.romanNumeral.convert(24), "XXIV")
+
 if __name__ == '__main__':
     unittest.main()
