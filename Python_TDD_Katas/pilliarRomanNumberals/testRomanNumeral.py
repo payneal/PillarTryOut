@@ -9,6 +9,8 @@ class TestRomalNumeralConverter(unittest.TestCase):
     def tearDown(self):
         self.romanNumeral = None
 
+    # feature 1
+
     def test_convert_0_to_None(self):
         self.assertEqual(self.romanNumeral.convert(0), "")
 
@@ -44,6 +46,10 @@ class TestRomalNumeralConverter(unittest.TestCase):
 
     def test_convert_24_to_XXIV(self):
         self.assertEqual(self.romanNumeral.convert(24), "XXIV")
+
+    # feature 2
+    def test_convert_I_to_1(self):
+        self.assertEqual(self.romanNumeral.convert('I'), 1)
 
 if __name__ == '__main__':
     unittest.main()
