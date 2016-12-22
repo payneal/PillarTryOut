@@ -19,9 +19,33 @@ class RomanNumeral:
 
     def __formatRomanNumeral(self):
         numbers = self.converted.split('-')
-        if len(numbers[0]) == 2:
-            return numbers[1] + numbers[0]
+        totalA = self.__getTotalFromRoman(numbers[0])
+        totalB = self.__getTotalFromRoman(numbers[1])
+        return self.__alterFormat(totalA, totalB, numbers)
+
+    def __alterFormat(self, totalA, totalB, numbers):
+        if totalA < totalB and self.numberGiven > 10:
+            hold1 = numbers[0]
+            hold2 = numbers[1]
+            numbers[0] = hold2
+            numbers[1] = hold1
+        elif totalA > totalB:
+            numbers[0] = numbers[0][::-1]
         return numbers[0] + numbers[1]
+
+    def __getTotalFromRoman(self, number):
+        total = 0
+        for x in range(0, len(number)):
+            if x == 0 and len(number) > 1:
+                total -= self.__numeralToNumber(number[x])
+            else:
+                total += self.__numeralToNumber(number[x])
+        return total
+
+    def __numeralToNumber(self, letter):
+        for x in self.roman:
+            if x['letter'] == letter:
+                return x['value']
 
     def __startConversionProcess(self, number):
         indexOfRoman = self.__findClosestValueToNumber(number)
