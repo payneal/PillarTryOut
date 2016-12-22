@@ -8,6 +8,14 @@ class RomanNumeral:
         self.total = 0
 
     def convert(self, number):
+        if type(number) is int:
+            return self.__convertNumberToRoman(number)
+        return self.__convertRomanToNumber(number)
+
+    def __convertRomanToNumber(self, number):
+        return self.__getTotalFromRoman(number)
+
+    def __convertNumberToRoman(self, number):
         self.numberGiven = number
         self.__startConversionProcess(number)
         return self.__returnConvertedRomanNumeral()
