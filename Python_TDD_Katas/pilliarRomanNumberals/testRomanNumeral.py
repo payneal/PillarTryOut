@@ -47,6 +47,18 @@ class TestRomalNumeralConverter(unittest.TestCase):
     def test_convert_24_to_XXIV(self):
         self.assertEqual(self.romanNumeral.convert(24), "XXIV")
 
+    def test_convert_27_to_XXIV(self):
+        self.assertEqual(self.romanNumeral.convert(27), "XXVII")
+
+    def test_convert_29_to_XXIX(self):
+        self.assertEqual(self.romanNumeral.convert(29), "XXIX")
+
+    def test_convert_39_to_XXXIX(self):
+        self.assertEqual(self.romanNumeral.convert(39), "XXXIX")
+
+    def test_convert_40_to_XL(self):
+        self.assertEqual(self.romanNumeral.convert(40), "XL")
+
     # feature 2
     def test_convert_I_to_1(self):
         self.assertEqual(self.romanNumeral.convert('I'), 1)
